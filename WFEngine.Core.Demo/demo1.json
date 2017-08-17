@@ -1,0 +1,44 @@
+{
+  "WorkflowId": "D2DED37E-E6EC-43A0-91F5-13547F8BFDBE",
+  "WorkflowName": "一级审批工作流",
+  "Author": "zhangsan",
+  "Created": "2017-08-17",
+  "CurrentNode":0,
+  "Nodes": [
+    {
+      "Index": 0,
+      "Id": "CC5FF444-EBD2-45DE-9463-9823B86FC455",
+      "Name": "经理审批",
+      "Form": {
+        "Item": true,
+        "Task": true,
+        "History": true
+      },
+      "Approvers": {
+        "Person": [ "lisi" ],
+        "Group": [],
+        "Default": []
+      },
+      "Buttons": [
+        {
+          "Index": 0,
+          "Id": "Approve",
+          "Name": "通过"
+        },
+        {
+          "Index": 1,
+          "Id": "Reject",
+          "Name": "拒绝"
+        }
+      ],
+      "ControlPermissionLevel": 1,
+      "PreNode": "",
+      "NextNode": "",
+      "Fields": {
+        "SetValue": [ { "Comment": "_#_Comment_#_" } ],
+        "GetValue": []
+      }
+    }
+  ],
+  "WorkflowVariable": {}
+}

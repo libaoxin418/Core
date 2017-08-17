@@ -1,0 +1,31 @@
+{
+  "WorkflowId": "",
+  "WorkflowName": "",
+  "Author": "",
+  "Created": "",
+  "Nodes": [
+    {
+      "Id": "",
+      "Name": "",
+      "Form": {
+        "Item": "",
+        "Task": "",
+        "History": ""
+      },
+      "Approvers": {
+        "Person": [],
+        "Group": [],
+        "Default": []
+      },
+      "Buttons": [],
+      "ControlPermissionLevel": "",
+      "PreNode": "",
+      "NextNode": "",
+      "Fields": {
+        "SetValue": [],
+        "GetValue": []
+      }
+    }
+  ],
+  "WorkflowVariable": {}
+}
