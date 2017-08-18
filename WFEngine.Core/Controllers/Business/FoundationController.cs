@@ -8,7 +8,7 @@ using System.Net.Http;
 using WFEngine.Utility.Models;
 using Newtonsoft.Json;
 using System.Text;
-using WFEngine.Core.Core;
+using WFEngine.Core.Services;
 
 namespace WFEngine.Core.Controllers.Business
 {
@@ -23,14 +23,14 @@ namespace WFEngine.Core.Controllers.Business
         /// <returns></returns>
         [HttpGet]
         [Route("Start")]
-        public HttpResponseMessage Start(Guid wfId)
+        public HttpResponseMessage Start(Guid wfId,Guid listId,int itemId)
         {
             OpenApiResult<string> result = new OpenApiResult<string>();
 
             try
             {
-                WorkflowFoundation wf = new WorkflowFoundation();
-                wf.Start();
+                WorkflowFoundationService wf = new WorkflowFoundationService();
+                wf.Start(wfId, listId, itemId);
             }
             catch (Exception ex)
             {

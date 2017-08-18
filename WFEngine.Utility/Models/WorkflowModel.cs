@@ -30,5 +30,8 @@ namespace WFEngine.Utility.Models
         /// 当前节点
         /// </summary>
         public int CurrentNode { get; set; }
+
+        public int ItemId { get; set; }
+        public string ListId { get; set; }
     }
 }

@@ -9,12 +9,12 @@ using WFEngine.Utility.Models;
 using Newtonsoft.Json;
 using System.Text;
 using Microsoft.AspNetCore.Cors;
-using WFEngine.Core.Core;
+using WFEngine.Core.Services;
 
 namespace WFEngine.Core.Controllers.Designer
 {
-    [Route("api/workflow/Designer")]
-    public class DesignerController : Controller
+    [Route("api/workflow/wfDesigner")]
+    public class WFDesignerController : Controller
     {
         /// <summary>
         /// 添加工作流
@@ -30,7 +30,7 @@ namespace WFEngine.Core.Controllers.Designer
             try
             {
                 WorkflowModel model = JsonConvert.DeserializeObject<WorkflowModel>(wfConfig);
-                WorkflowDesigner wd = new WorkflowDesigner();
+                WorkflowDesignerService wd = new WorkflowDesignerService();
                 wd.Add(model);
             }
             catch (Exception ex)

@@ -14,6 +14,8 @@ namespace WFEngine.DataAccess
     public class DataContext : DbContext
     {
         public DbSet<Workflow> Workflows { get; set; }
+        public DbSet<Task> Tasks { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var builder = new ConfigurationBuilder()

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using WFEngine.DataAccess;
 using WFEngine.DataAccess.Models;
 
-namespace WFEngine.Core.Core
+namespace WFEngine.Core.Services
 {
-    public class WorkflowFoundation: BaseCore
+    public class WorkflowFoundationService: BaseCore
     {
-        public string Start()
+        public string Start(Guid wfId, Guid listId, int itemId)
         {
             
             return "";

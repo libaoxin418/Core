@@ -7,9 +7,9 @@ using WFEngine.DataAccess;
 using WFEngine.DataAccess.Models;
 using WFEngine.Utility.Models;
 
-namespace WFEngine.Core.Core
+namespace WFEngine.Core.Services
 {
-    public class WorkflowDesigner
+    public class WorkflowDesignerService
     {
         public string Add(WorkflowModel model)
         {

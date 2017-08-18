@@ -10,4 +10,8 @@
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.8-dmr" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WFEngine.Utility\WFEngine.Utility.csproj" />
+  </ItemGroup>
+
 </Project>

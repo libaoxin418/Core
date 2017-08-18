@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Designer\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
