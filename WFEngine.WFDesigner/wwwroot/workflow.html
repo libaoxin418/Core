@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="scripts/jquery.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        var workflowinfo = {
+            "WorkflowId": "D2DED37E-E6EC-43A0-91F5-13547F8BFDBE",
+            "WorkflowName": "一级审批工作流",
+            "Author": "zhangsan",
+            "Created": "2017-08-17",
+            "CurrentNode": 0,
+            "Nodes": [
+                {
+                    "Index": 0,
+                    "Id": "CC5FF444-EBD2-45DE-9463-9823B86FC455",
+                    "Name": "经理审批",
+                    "Form": {
+                        "Item": true,
+                        "Task": true,
+                        "History": true
+                    },
+                    "Approvers": {
+                        "Person": ["lisi"],
+                        "Group": [],
+                        "Default": []
+                    },
+                    "Buttons": [
+                        {
+                            "Index": 0,
+                            "Id": "Approve",
+                            "Name": "通过"
+                        },
+                        {
+                            "Index": 1,
+                            "Id": "Reject",
+                            "Name": "拒绝"
+                        }
+                    ],
+                    "ControlPermissionLevel": 1,
+                    "PreNode": -1,
+                    "NextNode": -1,
+                    "Fields": {
+                        "SetValue": [
+                            {
+                                "Key": "Comment",
+                                "Value": "_#_Comment_#_"
+                            }
+                        ],
+                        "GetValue": []
+                    }
+                }
+            ],
+            "WorkflowVariable": {}
+        };
+
+        jQuery.support.cors = true;
+        $.ajax({
+            type: "Post",
+            datatype:"json",
+            data: { "wfConfig": JSON.stringify(workflowinfo) },
+            url: "http://localhost:49388/api/workflow/designer/add",
+            success: function () { }
+        });
+    </script>
+</body>
+</html>

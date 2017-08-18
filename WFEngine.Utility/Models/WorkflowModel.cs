@@ -9,7 +9,7 @@ namespace WFEngine.Utility.Models
     public class WorkflowModel
     {
         [Key]
-        public Guid WorkflowId { get; set; }
+        public string WorkflowId { get; set; }
 
         [MaxLength(500)]
         public string WorkflowName { get; set; }
@@ -29,6 +29,6 @@ namespace WFEngine.Utility.Models
         /// <summary>
         /// 当前节点
         /// </summary>
-        public string CurrentNode { get; set; }
+        public int CurrentNode { get; set; }
     }
 }

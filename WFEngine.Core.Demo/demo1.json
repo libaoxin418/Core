@@ -3,7 +3,7 @@
   "WorkflowName": "一级审批工作流",
   "Author": "zhangsan",
   "Created": "2017-08-17",
-  "CurrentNode":0,
+  "CurrentNode": 0,
   "Nodes": [
     {
       "Index": 0,
@@ -32,10 +32,15 @@
         }
       ],
       "ControlPermissionLevel": 1,
-      "PreNode": "",
-      "NextNode": "",
+      "PreNode": -1,
+      "NextNode": -1,
       "Fields": {
-        "SetValue": [ { "Comment": "_#_Comment_#_" } ],
+        "SetValue": [
+          {
+            "Key": "Comment",
+            "Value": "_#_Comment_#_"
+          }
+        ],
         "GetValue": []
       }
     }

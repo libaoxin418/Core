@@ -9,9 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.Utility", "WFEngin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.DataAccess", "WFEngine.DataAccess\WFEngine.DataAccess.csproj", "{55905F69-081C-43E1-A236-950A03A121E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.WFDesigner", "WFEngine.WFDesigner\WFEngine.WFDesigner.csproj", "{CEB1582C-933C-4CB1-88A3-9664BA696689}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.Core.Demo", "WFEngine.Core.Demo\WFEngine.Core.Demo.csproj", "{E6110856-2191-4C40-8673-D46B6AA49EE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFEngine.Core.Demo", "WFEngine.Core.Demo\WFEngine.Core.Demo.csproj", "{E6110856-2191-4C40-8673-D46B6AA49EE6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{CAD144A8-91A7-48CA-B69D-CAA2D2311FB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnsureDataBaseCreated", "EnsureDataBaseCreated\EnsureDataBaseCreated.csproj", "{2615D95A-4303-4EE0-800C-E91E654D5A05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFEngine.WFDesigner", "WFEngine.WFDesigner\WFEngine.WFDesigner.csproj", "{6368133B-1685-4389-A778-3C894ADEE7C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,16 +35,23 @@ Global
 		{55905F69-081C-43E1-A236-950A03A121E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55905F69-081C-43E1-A236-950A03A121E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55905F69-081C-43E1-A236-950A03A121E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CEB1582C-933C-4CB1-88A3-9664BA696689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEB1582C-933C-4CB1-88A3-9664BA696689}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CEB1582C-933C-4CB1-88A3-9664BA696689}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CEB1582C-933C-4CB1-88A3-9664BA696689}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E6110856-2191-4C40-8673-D46B6AA49EE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E6110856-2191-4C40-8673-D46B6AA49EE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6110856-2191-4C40-8673-D46B6AA49EE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6110856-2191-4C40-8673-D46B6AA49EE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2615D95A-4303-4EE0-800C-E91E654D5A05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2615D95A-4303-4EE0-800C-E91E654D5A05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2615D95A-4303-4EE0-800C-E91E654D5A05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2615D95A-4303-4EE0-800C-E91E654D5A05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6368133B-1685-4389-A778-3C894ADEE7C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6368133B-1685-4389-A778-3C894ADEE7C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6368133B-1685-4389-A778-3C894ADEE7C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6368133B-1685-4389-A778-3C894ADEE7C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2615D95A-4303-4EE0-800C-E91E654D5A05} = {CAD144A8-91A7-48CA-B69D-CAA2D2311FB9}
 	EndGlobalSection
 EndGlobal

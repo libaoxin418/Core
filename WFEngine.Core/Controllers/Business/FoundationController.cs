@@ -8,13 +8,19 @@ using System.Net.Http;
 using WFEngine.Utility.Models;
 using Newtonsoft.Json;
 using System.Text;
+using WFEngine.Core.Core;
 
 namespace WFEngine.Core.Controllers.Business
 {
     [Produces("application/json")]
-    [Route("api/workflow/base")]
-    public class BaseController : Controller
+    [Route("api/workflow")]
+    public class FoundationController : Controller
     {
+        /// <summary>
+        /// 启动工作流
+        /// </summary>
+        /// <param name="wfId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Start")]
         public HttpResponseMessage Start(Guid wfId)
@@ -23,7 +29,8 @@ namespace WFEngine.Core.Controllers.Business
 
             try
             {
-
+                WorkflowFoundation wf = new WorkflowFoundation();
+                wf.Start();
             }
             catch (Exception ex)
             {
