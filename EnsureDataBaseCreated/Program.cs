@@ -7,7 +7,7 @@ namespace EnsureDataBaseCreated
     {
         static void Main(string[] args)
         {
-            using (var context = new DataContext())
+            using (var context = new WorkflowContext())
             {
                 context.Database.EnsureCreated();
             }

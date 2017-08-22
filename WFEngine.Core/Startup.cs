@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MySQL.Data.EntityFrameworkCore.Extensions;
 using WFEngine.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace WFEngine.Core
 {
@@ -29,8 +29,6 @@ namespace WFEngine.Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            // Add framework services.
             services.AddMvc();
 
             services.AddCors(options =>
@@ -40,11 +38,8 @@ namespace WFEngine.Core
                     );
             });
 
-            string connectionString = Configuration.GetConnectionString("MySqlConnection");
-
-            services.AddDbContext<DataContext>(options =>
-                options.UseMySQL(connectionString)
-            );
+            var connection = Configuration.GetConnectionString("SQLServerConnection");
+            services.AddDbContext<WorkflowContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

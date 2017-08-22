@@ -9,6 +9,7 @@ using WFEngine.Utility.Models;
 using Newtonsoft.Json;
 using System.Text;
 using WFEngine.Core.Services;
+using WFEngine.DataAccess;
 
 namespace WFEngine.Core.Controllers.Business
 {
@@ -16,6 +17,14 @@ namespace WFEngine.Core.Controllers.Business
     [Route("api/workflow")]
     public class FoundationController : Controller
     {
+        private readonly WorkflowContext _context;
+
+        public FoundationController(WorkflowContext context)
+        {
+            _context = context;
+        }
+
+
         /// <summary>
         /// 启动工作流
         /// </summary>
@@ -23,13 +32,13 @@ namespace WFEngine.Core.Controllers.Business
         /// <returns></returns>
         [HttpGet]
         [Route("Start")]
-        public HttpResponseMessage Start(Guid wfId,Guid listId,int itemId)
+        public HttpResponseMessage Start(string wfId, string listId, string itemId)
         {
             OpenApiResult<string> result = new OpenApiResult<string>();
 
             try
             {
-                WorkflowFoundationService wf = new WorkflowFoundationService();
+                WorkflowFoundationService wf = new WorkflowFoundationService(_context);
                 wf.Start(wfId, listId, itemId);
             }
             catch (Exception ex)

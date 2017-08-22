@@ -10,6 +10,7 @@
         var workflowinfo = {
             "WorkflowId": "D2DED37E-E6EC-43A0-91F5-13547F8BFDBE",
             "ItemId": "358E7896-BB76-4E6D-AD4C-BB67E4008DC4",
+            "ListId": "A398134C-DA4F-4F23-AD82-A8A2F375C1E8",
             "WorkflowName": "一级审批工作流",
             "Author": "zhangsan",
             "Created": "2017-08-17",
@@ -19,7 +20,9 @@
                     "Index": 0,
                     "Id": "CC5FF444-EBD2-45DE-9463-9823B86FC455",
                     "Name": "经理审批",
-                    "TaskName":"",
+                    "TaskName": "",
+                    "IsSendEmail": true,
+                    "EmailTmpl":"",
                     "Form": {
                         "Item": true,
                         "Task": true,
@@ -64,7 +67,7 @@
             type: "Post",
             datatype:"json",
             data: { "wfConfig": JSON.stringify(workflowinfo) },
-            url: "http://localhost:49388/api/workflow/designer/add",
+            url: "http://localhost:49388/api/workflow/wfDesigner/add",
             success: function () { }
         });
     </script>

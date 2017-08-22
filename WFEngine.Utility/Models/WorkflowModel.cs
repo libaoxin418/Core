@@ -31,7 +31,7 @@ namespace WFEngine.Utility.Models
         /// </summary>
         public int CurrentNode { get; set; }
 
-        public int ItemId { get; set; }
+        public string ItemId { get; set; }
         public string ListId { get; set; }
     }
 }

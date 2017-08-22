@@ -9,8 +9,14 @@ namespace WFEngine.DataAccess.Models
     {
         [Key]
         public string WorkflowId { get; set; }
-        public int ItemId { get; set; }
+
+        [MaxLength(50)]
+        public string ItemId { get; set; }
+
+        [MaxLength(50)]
         public string ListId { get; set; }
+
+
         [MaxLength(500)]
         public string WorkflowName { get; set; }
 

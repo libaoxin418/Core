@@ -14,7 +14,7 @@ namespace WFEngine.Utility.Models
         /// <summary>
         /// 节点Id
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
 
         /// <summary>
@@ -38,6 +38,11 @@ namespace WFEngine.Utility.Models
         public FieldsModel Fields { get; set; }
         public int PreNode { get; set; }
         public int NextNode { get; set; }
+
+        public bool IsSendEmail { get; set; }
+
+
+        public string EmailTmpl { get; set; }
     }
 
 
