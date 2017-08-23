@@ -20,8 +20,6 @@ namespace WFEngine.Core.Services
         {
             Workflow wfmodel = new Workflow();
             wfmodel.WorkflowId = model.WorkflowId;
-            wfmodel.ListId = model.ListId;
-            wfmodel.ItemId = model.ItemId;
             wfmodel.Author = model.Author;
             wfmodel.Created = model.Created;
             wfmodel.WorkflowName = model.WorkflowName;

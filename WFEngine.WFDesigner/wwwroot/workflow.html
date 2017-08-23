@@ -22,7 +22,7 @@
                     "Name": "经理审批",
                     "TaskName": "",
                     "IsSendEmail": true,
-                    "EmailTmpl":"",
+                    "EmailTmpl": "",
                     "Form": {
                         "Item": true,
                         "Task": true,
@@ -37,17 +37,19 @@
                         {
                             "Index": 0,
                             "Id": "Approve",
-                            "Name": "通过"
+                            "Name": "通过",
+                            "PreNode": -1,
+                            "NextNode": -1,
                         },
                         {
                             "Index": 1,
                             "Id": "Reject",
-                            "Name": "拒绝"
+                            "Name": "拒绝",
+                            "PreNode": -1,
+                            "NextNode": -1,
                         }
                     ],
                     "ControlPermissionLevel": 1,
-                    "PreNode": -1,
-                    "NextNode": -1,
                     "Fields": {
                         "SetValue": [
                             {
@@ -65,7 +67,7 @@
         jQuery.support.cors = true;
         $.ajax({
             type: "Post",
-            datatype:"json",
+            datatype: "json",
             data: { "wfConfig": JSON.stringify(workflowinfo) },
             url: "http://localhost:49388/api/workflow/wfDesigner/add",
             success: function () { }

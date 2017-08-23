@@ -36,8 +36,7 @@ namespace WFEngine.Utility.Models
         /// 节点字段修改
         /// </summary>
         public FieldsModel Fields { get; set; }
-        public int PreNode { get; set; }
-        public int NextNode { get; set; }
+
 
         public bool IsSendEmail { get; set; }
 
@@ -65,6 +64,8 @@ namespace WFEngine.Utility.Models
         public int Index { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
+        public int PreNode { get; set; }
+        public int NextNode { get; set; }
     }
 
     public class FieldModel
