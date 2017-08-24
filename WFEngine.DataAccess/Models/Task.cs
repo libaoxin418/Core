@@ -24,6 +24,8 @@ namespace WFEngine.DataAccess.Models
 
         public DateTime CompletedDate { get; set; }
 
+        public DateTime ExpireDate { get; set; }
+
         public TaskStatus Status { get; set; }
 
         [MaxLength(300)]

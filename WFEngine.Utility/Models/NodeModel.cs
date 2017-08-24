@@ -36,8 +36,17 @@ namespace WFEngine.Utility.Models
 
         public bool IsSendEmail { get; set; }
 
+        /// <summary>
+        /// 是否会签
+        /// </summary>
+        public CountersignModel Countersign { get; set; }
 
         public string EmailTmpl { get; set; }
+
+        /// <summary>
+        /// 过期分钟数
+        /// </summary>
+        public ExpireModel Expire { get; set; }
     }
 
 
@@ -62,5 +71,23 @@ namespace WFEngine.Utility.Models
         public string Name { get; set; }
         public int PreNode { get; set; }
         public int NextNode { get; set; }
+    }
+
+    public class CountersignModel
+    {
+        public bool Enable { get; set; }
+        public List<CountersignRateModel> NextNodes { get; set; }
+    }
+
+    public class CountersignRateModel
+    {
+        public double Rate { get; set; }
+        public int NodeId { get; set; }
+    }
+
+    public class ExpireModel
+    {
+        public int Minutes { get; set; }
+        public int NodeId { get; set; }
     }
 }

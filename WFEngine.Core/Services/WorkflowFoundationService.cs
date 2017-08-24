@@ -75,6 +75,7 @@ namespace WFEngine.Core.Services
                 task.NodeId = node.Id;
                 task.Status = Utility.TaskStatus.Started;
                 task.TaskId = Guid.NewGuid().ToString();
+                task.ExpireDate = DateTime.Now.AddMinutes(node.Expire.Minutes);
 
                 List<ExtField> listfield = node.TaskName.GetParameter();
 
@@ -117,18 +118,52 @@ namespace WFEngine.Core.Services
             task.Status = Utility.TaskStatus.Completed;
             task.OutCome = outcome;
 
-
-
+            //如果不是会签删除其他任务
+            if (!node.Countersign.Enable)
+            {
+                IQueryable<DM.Task> removeTasks = base._context.Tasks.Where(t => t.InstanceId == insId && t.NodeId == nodeId && t.Assigner == assigner);
+                base._context.Tasks.RemoveRange(removeTasks);
+            }
 
             //更新上下文或者变量
 
 
+            int nextNodeIndex = 0;
+            //判断会签结果，只能通过或者拒绝，根据会签结果判断下一个工作流走向
+            if (node.Countersign.Enable)
+            {
+                //获取总任务数和完成数
+                int allCount = base._context.Tasks.Count(t => t.InstanceId == insId && t.NodeId == nodeId);
+                int completedCount = base._context.Tasks.Count(t => t.InstanceId == insId && t.NodeId == nodeId && t.Status == Utility.TaskStatus.Completed);
+
+                if (allCount == completedCount)
+                {
+                    int approvalCount = base._context.Tasks.Count(t => t.InstanceId == insId && t.NodeId == nodeId && t.OutCome == 1);
+
+                    //计算通过率
+                    double rate = approvalCount / allCount;
+
+                    IEnumerable<CountersignRateModel> nextNodes = node.Countersign.NextNodes.OrderByDescending(n => n.Rate);
+                    foreach (var nn in nextNodes)
+                    {
+                        if (rate > nn.Rate)
+                        {
+                            //获取下一节点Id
+                            nextNodeIndex = nn.NodeId;
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                ButtonModel btnModel = node.Buttons[outcome];
+                nextNodeIndex = btnModel.NextNode;
+            }
+
+
 
             //生成新任务
-            ButtonModel btnModel = node.Buttons[outcome];
-
-
-            int nextNodeIndex = btnModel.NextNode;
             NodeModel nextNode = wfmodel.Nodes.FirstOrDefault(n => n.Index == nextNodeIndex);
 
             if (nextNode != null)
@@ -148,6 +183,7 @@ namespace WFEngine.Core.Services
                     newTask.TaskUrl = "";
                     newTask.InstanceId = insId;
                     newTask.Assigner = user;
+                    newTask.ExpireDate = DateTime.Now.AddMinutes(node.Expire.Minutes);
 
                     base._context.Tasks.Add(newTask);
                 }
@@ -199,7 +235,7 @@ namespace WFEngine.Core.Services
 
         private void GetAPIParameters(ExtField ef)
         {
-            
+
         }
     }
 }

@@ -23,7 +23,18 @@
                     "TaskName": "{Item.Author}的请加审批",
                     "IsSendEmail": true,
                     "EmailTmpl": "",
-                    "IsCountersign": false,
+                    "Expire":
+                    {
+                        "Minutes": 720,
+                        "NodeId": ""
+                    },
+                    "Countersign": {
+                        "Enable": false,
+                        "NextNodes": [
+                            { "Rate": "", "NodeId": "" },
+                            { "Rate": "", "NodeId": "" }
+                        ]
+                    },
                     "Form": {
                         "Item": true,
                         "Task": true,
@@ -37,17 +48,17 @@
                     "Buttons": [
                         {
                             "Index": 0,
-                            "Id": "Approve",
-                            "Name": "通过",
-                            "PreNode": -1,
-                            "NextNode": -1,
-                        },
-                        {
-                            "Index": 1,
                             "Id": "Reject",
                             "Name": "拒绝",
                             "PreNode": -1,
-                            "NextNode": -1,
+                            "NextNode": -1
+                        },
+                        {
+                            "Index": 1,
+                            "Id": "Approval",
+                            "Name": "通过",
+                            "PreNode": -1,
+                            "NextNode": -1
                         }
                     ],
                     "ControlPermissionLevel": 1,
