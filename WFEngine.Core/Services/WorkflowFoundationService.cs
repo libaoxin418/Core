@@ -153,7 +153,9 @@ namespace WFEngine.Core.Services
 
         private string GetFieldValueByApi(string dataSource, string name)
         {
-            throw new NotImplementedException();
+            HttpClient client = new HttpClient();
+            string value = client.GetStringAsync(dataSource + "?Parameter=" + name).Result;
+            return value;
         }
 
         /// <summary>
