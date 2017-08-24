@@ -8,6 +8,7 @@ namespace WFEngine.Utility
     {
         Started,
         Completed,
+        Cancelled,
         Error
     }
 }

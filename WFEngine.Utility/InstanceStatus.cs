@@ -9,6 +9,7 @@ namespace WFEngine.Utility
         Started,
         InProgress,
         Completed,
+        Terminated,
         Error
     }
 }

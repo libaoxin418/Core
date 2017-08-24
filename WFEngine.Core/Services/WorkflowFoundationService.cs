@@ -119,6 +119,33 @@ namespace WFEngine.Core.Services
             return content;
         }
 
+        /// <summary>
+        /// 强制终止工作流
+        /// </summary>
+        /// <param name="instanceId"></param>
+        internal void Terminate(string instanceId)
+        {
+            //获取实例,标注为已被终止
+            WorkflowInstance wi = base._context.WorkflowInstances.FirstOrDefault(w => w.InstanceId == instanceId);
+            wi.Status = InstanceStatus.Terminated;
+
+            //获取所有没有完成任务，标注为任务被取消
+            IQueryable<DM.Task> cancelTasks = base._context.Tasks.Where(t => t.InstanceId == instanceId && t.Status == Utility.TaskStatus.Started);
+
+            foreach (var task in cancelTasks)
+            {
+                task.Status = Utility.TaskStatus.Cancelled;
+            }
+
+            base._context.SaveChanges();
+        }
+
+        public IEnumerable<DM.Task> QueryTask(string user)
+        {
+            IQueryable<DM.Task> tasks = base._context.Tasks.Where(t => t.Assigner == user && t.Status == Utility.TaskStatus.Started);
+            return tasks;
+        }
+
         private string GetFieldValueByDb(string dataSource, string name)
         {
             throw new NotImplementedException();
