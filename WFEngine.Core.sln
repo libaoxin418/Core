@@ -19,9 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.FormDesigner", "WF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnsureDataBaseCreated", "EnsureDataBaseCreated\EnsureDataBaseCreated.csproj", "{683906A0-4A34-407A-B7FF-0EC8304B80C2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{668E9F7B-E926-4F6D-AE7E-2FEB8D803FD6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{DEF7EFC2-A200-4DB2-A2AF-B73776C69E54}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\Users\libx6\Desktop\工作流设计草稿.docx = ..\..\Users\libx6\Desktop\工作流设计草稿.docx
+		readme.md = readme.md
+		工作流设计草稿.docx = 工作流设计草稿.docx
 	EndProjectSection
 EndProject
 Global
