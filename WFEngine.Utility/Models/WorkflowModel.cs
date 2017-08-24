@@ -33,5 +33,7 @@ namespace WFEngine.Utility.Models
 
         public string ItemId { get; set; }
         public string ListId { get; set; }
+
+        public Dictionary<string, string> DataSource { get; set; }
     }
 }

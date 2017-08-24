@@ -77,10 +77,9 @@ namespace WFEngine.Core.Services
                 task.TaskId = Guid.NewGuid().ToString();
                 task.ExpireDate = DateTime.Now.AddMinutes(node.Expire.Minutes);
 
-                List<ExtField> listfield = node.TaskName.GetParameter();
+                List<ParameterField> parameters = node.TaskName.GetParameter();
+                task.TaskName = this.GetFieldValue(node.TaskName, parameters, wfmodel.DataSource);
 
-
-                task.TaskName = node.TaskName;
                 task.TaskUrl = "";
                 task.InstanceId = wInstance.InstanceId;
                 task.Assigner = user;
@@ -97,6 +96,39 @@ namespace WFEngine.Core.Services
             return "";
         }
 
+        private string GetFieldValue(string content, List<ParameterField> parameters, Dictionary<string, string> dataSource)
+        {
+            foreach (var parameter in parameters)
+            {
+                string source = dataSource.FirstOrDefault(k => k.Key == parameter.ReplaceField).Value;
+
+                string fieldValue = string.Empty;
+                switch (parameter.Type)
+                {
+                    case "API":
+                        fieldValue = this.GetFieldValueByApi(source, parameter.Name);
+                        break;
+                    case "DB":
+                        fieldValue = this.GetFieldValueByDb(source, parameter.Name);
+                        break;
+                }
+
+                content = content.Replace(parameter.ReplaceField, fieldValue);
+            }
+
+            return content;
+        }
+
+        private string GetFieldValueByDb(string dataSource, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string GetFieldValueByApi(string dataSource, string name)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 审批一个节点并生成下一个节点
         /// </summary>
@@ -106,8 +138,10 @@ namespace WFEngine.Core.Services
         /// <returns></returns>
         public string Approve(string insId, string nodeId, string assigner, int outcome)
         {
+            //获取实例
             WorkflowInstance wi = base._context.WorkflowInstances.FirstOrDefault(w => w.InstanceId == insId);
 
+            //通过实例获取工作流数据
             WorkflowModel wfmodel = JsonConvert.DeserializeObject<WorkflowModel>(wi.WorkflowJSON);
 
             NodeModel node = wfmodel.Nodes.FirstOrDefault(n => n.Id == nodeId);
@@ -179,7 +213,11 @@ namespace WFEngine.Core.Services
                     newTask.NodeId = node.Id;
                     newTask.Status = Utility.TaskStatus.Started;
                     newTask.TaskId = Guid.NewGuid().ToString();
-                    newTask.TaskName = node.Name;
+
+                    //获取参数，并根据参数源获取参数值
+                    List<ParameterField> parameters = node.TaskName.GetParameter();
+                    task.TaskName = this.GetFieldValue(node.TaskName, parameters, wfmodel.DataSource);
+
                     newTask.TaskUrl = "";
                     newTask.InstanceId = insId;
                     newTask.Assigner = user;
@@ -206,36 +244,5 @@ namespace WFEngine.Core.Services
             return "";
         }
 
-
-        private void GetParameters(List<ExtField> efs)
-        {
-            foreach (var item in efs)
-            {
-                switch (item.Method)
-                {
-                    case "DB":
-                        break;
-                    case "API":
-                        break;
-                }
-            }
-        }
-
-
-        private void GetDBParameters(ExtField ef)
-        {
-            switch (ef.Type)
-            {
-                case "Item":
-                    break;
-                case "Task":
-                    break;
-            }
-        }
-
-        private void GetAPIParameters(ExtField ef)
-        {
-
-        }
     }
 }
