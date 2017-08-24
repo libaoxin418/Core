@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using WFEngine.DataAccess;
 using WFEngine.DataAccess.Models;
+using WFEngine.Utility;
 using WFEngine.Utility.Activity;
 using WFEngine.Utility.Models;
 using DM = WFEngine.DataAccess.Models;
@@ -73,7 +75,11 @@ namespace WFEngine.Core.Services
                 task.NodeId = node.Id;
                 task.Status = Utility.TaskStatus.Started;
                 task.TaskId = Guid.NewGuid().ToString();
-                task.TaskName = node.Name;
+
+                List<ExtField> listfield = node.TaskName.GetParameter();
+
+
+                task.TaskName = node.TaskName;
                 task.TaskUrl = "";
                 task.InstanceId = wInstance.InstanceId;
                 task.Assigner = user;
@@ -111,6 +117,9 @@ namespace WFEngine.Core.Services
             task.Status = Utility.TaskStatus.Completed;
             task.OutCome = outcome;
 
+
+
+
             //更新上下文或者变量
 
 
@@ -143,7 +152,8 @@ namespace WFEngine.Core.Services
                     base._context.Tasks.Add(newTask);
                 }
             }
-            else {
+            else
+            {
 
                 wi.Status = Utility.InstanceStatus.Completed;
             }
@@ -158,6 +168,38 @@ namespace WFEngine.Core.Services
 
 
             return "";
+        }
+
+
+        private void GetParameters(List<ExtField> efs)
+        {
+            foreach (var item in efs)
+            {
+                switch (item.Method)
+                {
+                    case "DB":
+                        break;
+                    case "API":
+                        break;
+                }
+            }
+        }
+
+
+        private void GetDBParameters(ExtField ef)
+        {
+            switch (ef.Type)
+            {
+                case "Item":
+                    break;
+                case "Task":
+                    break;
+            }
+        }
+
+        private void GetAPIParameters(ExtField ef)
+        {
+            
         }
     }
 }

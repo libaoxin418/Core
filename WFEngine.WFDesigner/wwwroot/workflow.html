@@ -20,9 +20,10 @@
                     "Index": 0,
                     "Id": "CC5FF444-EBD2-45DE-9463-9823B86FC455",
                     "Name": "经理审批",
-                    "TaskName": "",
+                    "TaskName": "{Item.Author}的请加审批",
                     "IsSendEmail": true,
                     "EmailTmpl": "",
+                    "IsCountersign": false,
                     "Form": {
                         "Item": true,
                         "Task": true,
@@ -50,15 +51,6 @@
                         }
                     ],
                     "ControlPermissionLevel": 1,
-                    "Fields": {
-                        "SetValue": [
-                            {
-                                "Key": "Comment",
-                                "Value": "_#_Comment_#_"
-                            }
-                        ],
-                        "GetValue": []
-                    }
                 }
             ],
             "WorkflowVariable": {}

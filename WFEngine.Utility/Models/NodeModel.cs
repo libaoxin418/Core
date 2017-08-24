@@ -16,6 +16,7 @@ namespace WFEngine.Utility.Models
         /// </summary>
         public string Id { get; set; }
         public string Name { get; set; }
+        public string TaskName { get; set; }
 
         /// <summary>
         /// 节点表单
@@ -31,11 +32,6 @@ namespace WFEngine.Utility.Models
         /// 节点按钮
         /// </summary>
         public List<ButtonModel> Buttons { get; set; }
-
-        /// <summary>
-        /// 节点字段修改
-        /// </summary>
-        public FieldsModel Fields { get; set; }
 
 
         public bool IsSendEmail { get; set; }
@@ -66,17 +62,5 @@ namespace WFEngine.Utility.Models
         public string Name { get; set; }
         public int PreNode { get; set; }
         public int NextNode { get; set; }
-    }
-
-    public class FieldModel
-    {
-        public string Key { get; set; }
-        public object Value { get; set; }
-    }
-
-    public class FieldsModel
-    {
-        public List<FieldModel> SetValue { get; set; }
-        public List<FieldModel> GetValue { get; set; }
     }
 }
