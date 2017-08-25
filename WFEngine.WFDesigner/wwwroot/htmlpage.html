@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="libs/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+    <script src="libs/jquery-ui-1.12.1/jquery-ui.js"></script>
+    <script src="libs/jsPlumb-2.5.0/jsPlumb-2.5.0/dist/js/jsplumb.js"></script>
+</head>
+<body>
+    <div id="container">
+        <div id="mainContent">
+            <div id="sidebar">
+                Module List
+                <div class="window" id="">
+                    <strong>1</strong><br />
+                    <br />
+                </div>
+                <br />
+                <div class="window" id="">
+                    <strong>2</strong><br />
+                    <br />
+                </div>
+                <div class="window" id="">
+                    <strong>3</strong><br />
+                    <br />
+                </div>
+            </div>
+            <div id="content">
+                <p>drop here!</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(".window").draggable({
+            helper: "clone"
+        });
+
+
+        $("#content").droppable({
+            drop: function (event, ui) {
+                //  debugger;
+                if (ui.draggable[0].className.indexOf("jq-draggable-outcontainer") > 0) {
+
+                    var text = ui.draggable[0].innerText
+
+                    switch (text) {
+                        case "1":
+                            $(this)
+                                .find("p")
+                                .append('<div class="window jq-draggable-incontainer" id="window1"><strong>1</strong><br /><br /></div><div style="height:100px;"></div>');
+                            SBS.UI.Views.Plumb.AddEndpoints("window1", ["BottomCenter"], []);
+                        case "2":
+                            $(this)
+                                .find("p")
+                                .append('<div class="window jq-draggable-incontainer" id="window2"><strong>2</strong><br /><br /></div><div style="height:100px;"></div>');
+                            SBS.UI.Views.Plumb.AddEndpoints("window2", ["BottomCenter", "BottomLeft"], ["TopCenter"]);
+                    } break;
+                        case "3":
+            $(this)
+                                .find("p")
+            .after('<div class="window jq-draggable-incontainer" id="window3"><strong>3</strong><br /><br /></div>');
+        SBS.UI.Views.Plumb.AddEndpoints("window3", [], ["TopCenter", "TopLeft"]);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
