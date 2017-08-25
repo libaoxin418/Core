@@ -20,6 +20,7 @@ namespace WFEngine.Core.Services
             base._context = context;
         }
 
+
         /// <summary>
         /// 关联工作流和列表
         /// </summary>
@@ -35,7 +36,7 @@ namespace WFEngine.Core.Services
             base._context.WorkflowAssociations.Add(association);
             base._context.SaveChanges();
 
-            return "";
+            return "Associate";
         }
 
         /// <summary>
@@ -80,7 +81,20 @@ namespace WFEngine.Core.Services
                 List<ParameterField> parameters = node.TaskName.GetParameter();
                 task.TaskName = this.GetFieldValue(node.TaskName, parameters, wfmodel.DataSource);
 
-                task.TaskUrl = "";
+                //获取task url路径
+                if (string.IsNullOrEmpty(node.TaskUrl))
+                {
+                    task.TaskUrl = string.Format("/forms/approve.html?taskId={0}&listId={1}&itemId={2}", task.TaskId, task.ListId, task.ItemId);
+                }
+                else
+                {
+                    List<ParameterField> taskUrlParameters = node.TaskUrl.GetParameter();
+                    string taskUrl = this.GetFieldValue(node.TaskUrl, taskUrlParameters, wfmodel.DataSource);
+
+                    task.TaskUrl = string.Format("{0}&taskId={1}", taskUrl, task.TaskId);
+                }
+
+
                 task.InstanceId = wInstance.InstanceId;
                 task.Assigner = user;
                 base._context.Tasks.Add(task);
@@ -94,68 +108,6 @@ namespace WFEngine.Core.Services
             base._context.SaveChanges();
 
             return "";
-        }
-
-        private string GetFieldValue(string content, List<ParameterField> parameters, Dictionary<string, string> dataSource)
-        {
-            foreach (var parameter in parameters)
-            {
-                string source = dataSource.FirstOrDefault(k => k.Key == parameter.ReplaceField).Value;
-
-                string fieldValue = string.Empty;
-                switch (parameter.Type)
-                {
-                    case "API":
-                        fieldValue = this.GetFieldValueByApi(source, parameter.Name);
-                        break;
-                    case "DB":
-                        fieldValue = this.GetFieldValueByDb(source, parameter.Name);
-                        break;
-                }
-
-                content = content.Replace(parameter.ReplaceField, fieldValue);
-            }
-
-            return content;
-        }
-
-        /// <summary>
-        /// 强制终止工作流
-        /// </summary>
-        /// <param name="instanceId"></param>
-        internal void Terminate(string instanceId)
-        {
-            //获取实例,标注为已被终止
-            WorkflowInstance wi = base._context.WorkflowInstances.FirstOrDefault(w => w.InstanceId == instanceId);
-            wi.Status = InstanceStatus.Terminated;
-
-            //获取所有没有完成任务，标注为任务被取消
-            IQueryable<DM.Task> cancelTasks = base._context.Tasks.Where(t => t.InstanceId == instanceId && t.Status == Utility.TaskStatus.Started);
-
-            foreach (var task in cancelTasks)
-            {
-                task.Status = Utility.TaskStatus.Cancelled;
-            }
-
-            base._context.SaveChanges();
-        }
-
-        public IEnumerable<DM.Task> QueryTask(string user)
-        {
-            IQueryable<DM.Task> tasks = base._context.Tasks.Where(t => t.Assigner == user && t.Status == Utility.TaskStatus.Started);
-            return tasks;
-        }
-
-        private string GetFieldValueByDb(string dataSource, string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        private string GetFieldValueByApi(string dataSource, string name)
-        {
-            HttpClient client = new HttpClient();
-            string value = client.GetStringAsync(dataSource + "?Parameter=" + name).Result;
-            return value;
         }
 
         /// <summary>
@@ -271,6 +223,236 @@ namespace WFEngine.Core.Services
 
 
             return "";
+        }
+
+        /// <summary>
+        /// 动态添加工作流节点，修改工作流实例。
+        /// </summary>
+        /// <param name="instanceId"></param>
+        /// <param name="nodeId"></param>
+        /// <param name="outCome"></param>
+        /// <param name="prev"></param>
+        /// <returns></returns>
+        internal string NodeAdd(string instanceId, string nodeId, int outCome,bool prev)
+        {
+            //获取实例
+            WorkflowInstance wi = base._context.WorkflowInstances.FirstOrDefault(w => w.InstanceId == instanceId);
+
+            //通过实例获取工作流数据
+            WorkflowModel wfmodel = JsonConvert.DeserializeObject<WorkflowModel>(wi.WorkflowJSON);
+
+            NodeModel node = wfmodel.Nodes.FirstOrDefault(n => n.Id == nodeId);
+
+            NodeModel modelAdd = new NodeModel();
+
+
+
+
+            return "";
+        }
+
+        /// <summary>
+        /// 工作流回退
+        /// </summary>
+        /// <param name="instanceId"></param>
+        /// <param name="nodeid"></param>
+        internal string Return(string instanceId, string nodeId,int outCome)
+        {
+            //获取实例
+            WorkflowInstance wi = base._context.WorkflowInstances.FirstOrDefault(w => w.InstanceId == instanceId);
+
+            //通过实例获取工作流数据
+            WorkflowModel wfmodel = JsonConvert.DeserializeObject<WorkflowModel>(wi.WorkflowJSON);
+
+            NodeModel node = wfmodel.Nodes.FirstOrDefault(n => n.Id == nodeId);
+
+            ButtonModel btnModel = node.Buttons[outCome];
+            int nextNodeIndex = btnModel.NextNode;
+
+
+
+
+            return "";
+        }
+
+        /// <summary>
+        /// 工作流恢复
+        /// </summary>
+        /// <param name="instanceId"></param>
+        /// <returns></returns>
+        internal string Resume(string instanceId)
+        {
+            //获取实例
+            WorkflowInstance wi = base._context.WorkflowInstances.FirstOrDefault(w => w.InstanceId == instanceId);
+
+            //更新instance状态
+            wi.Status = InstanceStatus.InProgress;
+
+            base._context.SaveChanges();
+
+            return "";
+        }
+
+        /// <summary>
+        /// 工作流挂起，用于到期自动审批
+        /// </summary>
+        /// <param name="instanceId"></param>
+        /// <returns></returns>
+        internal string Suspend(string instanceId)
+        {
+            //获取实例
+            WorkflowInstance wi = base._context.WorkflowInstances.FirstOrDefault(w => w.InstanceId == instanceId);
+
+            //更新instance状态
+            wi.Status = InstanceStatus.Suspended;
+
+            base._context.SaveChanges();
+
+            return "";
+        }
+
+        /// <summary>
+        /// 取消工作流，只有没人审批的时候才能取消
+        /// </summary>
+        /// <param name="instanceId"></param>
+        /// <returns></returns>
+        internal string Cancel(string instanceId)
+        {
+            //获取实例
+            WorkflowInstance wi = base._context.WorkflowInstances.FirstOrDefault(w => w.InstanceId == instanceId);
+
+            IQueryable<DM.Task> tasksCompleted = base._context.Tasks.Where(t => t.Status == Utility.TaskStatus.Completed);
+
+            if (tasksCompleted.Count() > 0)
+            {
+                //已经有任务开始的不能取消
+            }
+            else
+            {
+                //更新task状态
+                IQueryable<DM.Task> tasks = base._context.Tasks.AsQueryable<DM.Task>();
+                foreach (var task in tasks)
+                {
+                    task.Status = Utility.TaskStatus.Cancelled;
+                }
+
+                //更新instance状态
+                wi.Status = InstanceStatus.Cancelled;
+            }
+
+            base._context.SaveChanges();
+
+            return "";
+        }
+
+        /// <summary>
+        /// 强制终止工作流
+        /// </summary>
+        /// <param name="instanceId"></param>
+        internal string Terminate(string instanceId)
+        {
+            //获取实例,标注为已被终止
+            WorkflowInstance wi = base._context.WorkflowInstances.FirstOrDefault(w => w.InstanceId == instanceId);
+            wi.Status = InstanceStatus.Terminated;
+
+            //获取所有没有完成任务，标注为任务被取消
+            IQueryable<DM.Task> cancelTasks = base._context.Tasks.Where(t => t.InstanceId == instanceId && t.Status == Utility.TaskStatus.Started);
+
+            foreach (var task in cancelTasks)
+            {
+                task.Status = Utility.TaskStatus.Cancelled;
+            }
+
+            base._context.SaveChanges();
+
+            return "";
+        }
+
+        /// <summary>
+        /// 获取所有的任务列表（代办列表）
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public IEnumerable<DM.Task> QueryAllTask(string user)
+        {
+            IQueryable<DM.Task> tasks = base._context.Tasks.Where(t => t.Assigner == user && t.Status == Utility.TaskStatus.Started);
+            return tasks;
+        }
+
+        /// <summary>
+        /// 查询单条任务
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
+        internal DM.Task QueryTask(string taskId)
+        {
+            DM.Task task = base._context.Tasks.FirstOrDefault(t => t.TaskId == taskId);
+            return task;
+        }
+
+        /// <summary>
+        /// 获取工作流审批历史记录
+        /// </summary>
+        /// <param name="instanceId"></param>
+        /// <returns></returns>
+        internal IEnumerable<DM.Task> QueryAllHistory(string instanceId)
+        {
+            IQueryable<DM.Task> tasks = base._context.Tasks.Where(t => t.InstanceId == instanceId && t.Status == Utility.TaskStatus.Completed).OrderBy(o => o.CompletedDate);
+            return tasks;
+        }
+
+        /// <summary>
+        /// 获取带参数的字段值
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="parameters"></param>
+        /// <param name="dataSource"></param>
+        /// <returns></returns>
+        private string GetFieldValue(string content, List<ParameterField> parameters, Dictionary<string, string> dataSource)
+        {
+            foreach (var parameter in parameters)
+            {
+                string source = dataSource.FirstOrDefault(k => k.Key == parameter.ReplaceField).Value;
+
+                string fieldValue = string.Empty;
+                switch (parameter.Type)
+                {
+                    case "API":
+                        fieldValue = this.GetFieldValueByApi(source, parameter.Name);
+                        break;
+                    case "DB":
+                        fieldValue = this.GetFieldValueByDb(source, parameter.Name);
+                        break;
+                }
+
+                content = content.Replace(parameter.ReplaceField, fieldValue);
+            }
+
+            return content;
+        }
+
+        /// <summary>
+        /// 通过业务数据库获取字段数据
+        /// </summary>
+        /// <param name="dataSource"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private string GetFieldValueByDb(string dataSource, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 通过api获取字段数据
+        /// </summary>
+        /// <param name="dataSource"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private string GetFieldValueByApi(string dataSource, string name)
+        {
+            HttpClient client = new HttpClient();
+            string value = client.GetStringAsync(dataSource + "?Parameter=" + name).Result;
+            return value;
         }
 
     }

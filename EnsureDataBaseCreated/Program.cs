@@ -8,6 +8,10 @@ namespace EnsureDataBaseCreated
 {
     class Program
     {
+        public override string ToString()
+        {
+            return base.ToString();
+        }
         static void Main(string[] args)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();

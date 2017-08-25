@@ -17,7 +17,7 @@ namespace WFEngine.Utility.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public string TaskName { get; set; }
-
+        public string TaskUrl { get; set; }
         /// <summary>
         /// 节点表单
         /// </summary>

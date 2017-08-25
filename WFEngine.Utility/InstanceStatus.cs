@@ -10,6 +10,8 @@ namespace WFEngine.Utility
         InProgress,
         Completed,
         Terminated,
+        Cancelled,
+        Suspended,
         Error
     }
 }

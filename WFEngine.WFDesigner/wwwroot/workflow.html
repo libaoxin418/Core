@@ -15,13 +15,14 @@
             "Author": "zhangsan",
             "Created": "2017-08-17",
             "CurrentNode": 0,
-            "DataSource": { "{DB.Get.Item.Author}": "SqlConnection", "{API.Get.Item.Author}": "http://api" },
+            "DataSource": { "{DB.Get.Item.Author}": "SqlConnection", "{API.Get.Item.Author}": "http://api", "{DB.Get.Item.Id}": "SqlConnection" },
             "Nodes": [
                 {
                     "Index": 0,
                     "Id": "CC5FF444-EBD2-45DE-9463-9823B86FC455",
                     "Name": "经理审批",
                     "TaskName": "{DB.Get.Item.Author}的请加审批{API.Get.Item.Created}",
+                    "TaskUrl": "/demo/item.html?itemid={DB.Get.Item.Id}",
                     "IsSendEmail": true,
                     "EmailTmpl": "",
                     "Expire":{"Minutes": 720,"NodeId": ""},
