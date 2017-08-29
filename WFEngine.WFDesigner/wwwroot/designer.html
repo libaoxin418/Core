@@ -3,16 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>工作流设计器</title>
-    <link href="libs/jquery-easyui-1.5.2/themes/default/easyui.css" rel="stylesheet" />
-    <link href="libs/jquery-easyui-1.5.2/themes/icon.css" rel="stylesheet" />
-    <script src="libs/jquery-easyui-1.5.2/jquery.min.js"></script>
-    <script src="libs/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+
+    <script src="libs/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+    <link href="libs/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
+    <script src="libs/jquery-ui-1.12.1/jquery-ui.js"></script>
+
+    <script src="libs/jquery-ui-1.12.1/external/jquery.layout-latest.js"></script>
+    <link href="libs/jquery-ui-1.12.1/external/layout-default-latest.css" rel="stylesheet" />
+
+
+    <script src="libs/jsPlumb/jquery.jsPlumb-1.4.0-all.js"></script>
+    <link href="contents/wfdesigner.css" rel="stylesheet" />
+
+    <style type="text/css">
+        body > .ui-layout-center {
+            padding: 0 !important; 
+        }
+    </style>
 </head>
-<body class="easyui-layout">
-    <div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px">north region</div>
-    <div data-options="region:'west',split:true,title:'West'" style="width:150px;padding:10px;">west content</div>
-    <div data-options="region:'east',split:true,collapsed:true,title:'East'" style="width:100px;padding:10px;">east region</div>
-    <div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;padding:10px;">south region</div>
-    <div data-options="region:'center',title:'Center'"></div>
+<body class="easyui-layout" id="wfdesinger-contaner">
+    <div class="ui-layout-center">
+        <div class="container mini-layout" id="flowdesign_canvas">
+
+        </div>
+    </div>
+    <div class="ui-layout-north">这里放相关logo和导航</div>
+    <div class="ui-layout-south">这里放相关错误信息和保存信息提示</div>
+    <div class="ui-layout-east">这里放生成的json</div>
+    <div class="ui-layout-west"><button id="addNode">添加节点</button></div>
+
+    <script src="scripts/flowdesign.v1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('body').layout({ applyDefaultStyles: true });
+            FlowDesign.init();
+            $("#addNode").click(function () {
+                FlowDesign.AddNode();
+            });
+        });
+    </script>
 </body>
 </html>

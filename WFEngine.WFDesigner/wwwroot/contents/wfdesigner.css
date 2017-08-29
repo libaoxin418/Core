@@ -1,0 +1,29 @@
+﻿body {
+}
+
+#flowdesign_canvas {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: #fff;
+    background-size: 10px 10px;
+    background-image: linear-gradient(#ccc 10%, transparent 10%, transparent),linear-gradient(to left,#ccc 10%, transparent 10%, transparent);*/
+}
+
+.wf_node {
+    width: 150px;
+    height: 80px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    position: absolute;
+    cursor: move;
+    background-color: #ffffcc;
+}
+
+.generate_line {
+    height: 80px;
+    width: 50px;
+    display: inline-block;
+    vertical-align: middle;
+    cursor:pointer;
+}
