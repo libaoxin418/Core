@@ -25,5 +25,9 @@
     width: 50px;
     display: inline-block;
     vertical-align: middle;
-    cursor:pointer;
+    cursor: pointer;
+    background-image: url('images/node.png');
+    background-size: 36px;
+    background-repeat: no-repeat;
+    background-position:center;
 }
