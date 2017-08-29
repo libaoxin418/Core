@@ -102,7 +102,8 @@ var FlowDesign = {
 
     SaveWorkflowDesign: function () { },
 
-    AddNode: function () {
+    AddNode: function (option) {
+        var nodeType = option.nodeType;
 
         var date = new Date();
         var nodeDiv = document.createElement("div");
@@ -111,12 +112,12 @@ var FlowDesign = {
         $(nodeDiv).attr("id", nodeId)
             .attr("node_to", "")
             .addClass("wf_node")
-            .html("<span class='generate_line'></span>新工作流节点")
+            .html("<span class='generate_line " + nodeType + "'></span>" + option.nodeName)
             .dblclick(function () {
                 $.get("/templates/Node.html?nodeId=" + nodeId, function (result) {
                     $("#wfdesinger-contaner").append(result);
 
-                    $("#dialog").dialog();
+                    $("#dialog").dialog({ width: 800, height: 400 });
                 });
             })
             .mousedown(function (e) {

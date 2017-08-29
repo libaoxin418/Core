@@ -17,7 +17,7 @@
 
     <style type="text/css">
         body > .ui-layout-center {
-            padding: 0 !important; 
+            padding: 0 !important;
         }
     </style>
 </head>
@@ -37,8 +37,13 @@
         $(document).ready(function () {
             $('body').layout({ applyDefaultStyles: true });
             FlowDesign.init();
+            FlowDesign.AddNode({ nodeType: "node-start", nodeName: "开始节点" });
+            FlowDesign.AddNode({ nodeType: "node-end", nodeName: "结束节点" });
+
+
+
             $("#addNode").click(function () {
-                FlowDesign.AddNode();
+                FlowDesign.AddNode({ nodeType: "node-normal", nodeName: "新建审批节点" });
             });
         });
     </script>

@@ -3,13 +3,30 @@
 
 #flowdesign_canvas {
     position: relative;
-    height: 100%;
+    height: 2000px;
     width: 100%;
     background-color: #fff;
     background-size: 10px 10px;
     background-image: linear-gradient(#ccc 10%, transparent 10%, transparent),linear-gradient(to left,#ccc 10%, transparent 10%, transparent);*/
 }
-
+.node-normal {
+    background-image: url('images/node.png');
+    background-size: 36px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.node-start {
+    background-image: url('images/start.png');
+    background-size: 36px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.node-end {
+    background-image: url('images/end.png');
+    background-size: 36px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 .wf_node {
     width: 150px;
     height: 80px;
@@ -26,8 +43,4 @@
     display: inline-block;
     vertical-align: middle;
     cursor: pointer;
-    background-image: url('images/node.png');
-    background-size: 36px;
-    background-repeat: no-repeat;
-    background-position:center;
 }
