@@ -7,29 +7,33 @@
     width: 100%;
     background-color: #fff;
     background-size: 10px 10px;
-    background-image: linear-gradient(#ccc 10%, transparent 10%, transparent),linear-gradient(to left,#ccc 10%, transparent 10%, transparent);*/
+    background-image: linear-gradient(#ccc 10%, transparent 10%, transparent),linear-gradient(to left,#ccc 10%, transparent 10%, transparent);
 }
+
 .node-normal {
     background-image: url('images/node.png');
     background-size: 36px;
     background-repeat: no-repeat;
     background-position: center;
 }
+
 .node-start {
     background-image: url('images/start.png');
     background-size: 36px;
     background-repeat: no-repeat;
     background-position: center;
 }
+
 .node-end {
     background-image: url('images/end.png');
     background-size: 36px;
     background-repeat: no-repeat;
     background-position: center;
 }
+
 .wf_node {
     width: 150px;
-    height: 80px;
+    height: 60px;
     border: 1px solid #ccc;
     border-radius: 4px;
     position: absolute;
@@ -38,9 +42,75 @@
 }
 
 .generate_line {
-    height: 80px;
+    height: 60px;
     width: 50px;
     display: inline-block;
     vertical-align: middle;
     cursor: pointer;
+}
+
+.wf-waring {
+    background-image: url(images/icon-warning.png);
+    font-size: 12px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-left: 20px;
+}
+
+.wf-error {
+    background-image: url(images/icon-error.png);
+    font-size: 12px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-left: 20px;
+}
+
+
+.wf-info {
+    background-image: url(images/icon-info.png);
+    font-size: 12px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-left: 20px;
+}
+
+.ui-layout-north > div {
+    width: 50%;
+    float:left;
+}
+
+.ui-layout-north .opration-button {
+text-align:right;
+}
+
+.ui-layout-north .logo-title {
+    font-size:25px;
+    color:#fff;
+    height:30px;
+    line-height:30px;
+}
+
+#addStartNode {
+    background-image: url('images/start.png');
+    background-repeat: no-repeat;
+    background-size:contain;
+}
+
+#addEndNode {
+    background-image: url('images/end.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+#addNode {
+    background-image: url('images/node.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.ui-layout-east {
+font-size:12px;
+}
+.ui-layout-north {
+    background-color: #438eb9 !important
 }

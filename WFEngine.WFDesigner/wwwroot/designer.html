@@ -10,9 +10,10 @@
 
     <script src="libs/jquery-ui-1.12.1/external/jquery.layout-latest.js"></script>
     <link href="libs/jquery-ui-1.12.1/external/layout-default-latest.css" rel="stylesheet" />
-
+    <script src="libs/jquery-ui-1.12.1/external/jquery.contextmenu.r2.js"></script>
 
     <script src="libs/jsPlumb/jquery.jsPlumb-1.4.0-all.js"></script>
+    <link href="libs/bootstrap/bootstrap.css" rel="stylesheet" />
     <link href="contents/wfdesigner.css" rel="stylesheet" />
 
     <style type="text/css">
@@ -27,24 +28,79 @@
 
         </div>
     </div>
-    <div class="ui-layout-north">这里放相关logo和导航</div>
-    <div class="ui-layout-south">这里放相关错误信息和保存信息提示</div>
-    <div class="ui-layout-east">这里放生成的json</div>
-    <div class="ui-layout-west"><button id="addNode">添加节点</button></div>
+    <div class="ui-layout-north">
+        <div class="logo-title">极速工作流设计器</div>
+        <div class="opration-button">
+            <input class="btn btn-default" type="button" value="工作流信息">
+            <input class="btn btn-default" type="button" id="ClearDesign" value="清空工作流">
+            <input class="btn btn-default" type="button" value="保存工作流">
+        </div>
+    </div>
+    <div class="ui-layout-south">
+
+    </div>
+    <div class="ui-layout-east">
+
+    </div>
+    <div class="ui-layout-west">
+        <div id="addStartNode" class="ui-button ui-widget ui-corner-all btn-block">开始节点</div>
+        <div id="addEndNode" class="ui-button ui-widget ui-corner-all btn-block">结束节点</div>
+        <div id="addNode" class="ui-button ui-widget ui-corner-all btn-block">普通节点</div>
+    </div>
+
+    <div id="NodeMenu" style="display:none;">
+        <ul>
+            <li id="commandAttribute"><i class="icon-cog"></i>&nbsp;<span class="_label">属性</span></li>
+            <li id="commandDelete"><i class="icon-trash"></i>&nbsp;<span class="_label">删除</span></li>
+        </ul>
+    </div>
 
     <script src="scripts/flowdesign.v1.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            flowDesign.InitCanvas();
+
             $('body').layout({ applyDefaultStyles: true });
-            FlowDesign.init();
-            FlowDesign.AddNode({ nodeType: "node-start", nodeName: "开始节点" });
-            FlowDesign.AddNode({ nodeType: "node-end", nodeName: "结束节点" });
-
-
+            flowDesign.init();
+            var workflowId = Utility.GetQueryString("workflowId");
+            if (workflowId != null) {
+                flowDesign.GetWorkflowDesign(workflowId);
+            }
 
             $("#addNode").click(function () {
-                FlowDesign.AddNode({ nodeType: "node-normal", nodeName: "新建审批节点" });
+                flowDesign.AddNode({ nodeType: "node-normal", nodeName: "新建审批节点", css: { "left": "50%" } });
             });
+
+            $("#addStartNode").click(function () {
+                if (Utility.IsInArray(window.Workflow.Nodes, "node-start")) {
+                    Utility.WriteLog({ "Class": "wf-waring", "Message": "已存在开始节点！" });
+                    return;
+                }
+
+                flowDesign.AddNode({ nodeType: "node-start", nodeName: "开始节点", css: {} });
+            });
+
+            $("#addEndNode").click(function () {
+                if (Utility.IsInArray(window.Workflow.Nodes, "node-end")) {
+                    Utility.WriteLog({ "Class": "wf-waring", "Message": "已存在结束节点！" });
+                    return;
+                }
+
+                flowDesign.AddNode({ nodeType: "node-end", nodeName: "结束节点", css: { "right": "0px" } });
+            });
+
+            $("#ClearDesign").click(function () {
+                if (confirm("确定要清空画布上所有的节点吗？此过程无法还原！")) {
+                    flowDesign.Clear();
+                    $(".wf_node").each(function () {
+                        $(this).remove();
+                    });
+                    flowDesign.InitCanvas();
+
+                    Utility.WriteLog({ "Class": "wf-info", "Message": "清空了当前画布！" });
+                }
+            });
+
         });
     </script>
 </body>
