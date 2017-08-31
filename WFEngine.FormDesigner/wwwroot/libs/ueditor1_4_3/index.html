@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -46,7 +46,7 @@
     </div>
 
     <div>
-        <button onclick="getLocalData()" >获取草稿箱内容</button>
+        <button id="ddd" onclick="getLocalData()" >获取草稿箱内容</button>
         <button onclick="clearLocalData()" >清空草稿箱</button>
     </div>
 
@@ -74,7 +74,7 @@
         UE.dom.domUtils.preventDefault(e)
     }
     function insertHtml() {
-        var value = prompt('插入html代码', '');
+        var value = document.getElementById("ddd").outerHTML;
         UE.getEditor('editor').execCommand('insertHtml', value)
     }
     function createEditor() {

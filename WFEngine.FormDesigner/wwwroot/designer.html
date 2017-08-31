@@ -13,8 +13,10 @@
 
     <script src="libs/ueditor1_4_3/ueditor.config.js"></script>
     <script src="libs/ueditor1_4_3/ueditor.all.js"></script>
+    <script src="libs/ueditor1_4_3/lang/zh-cn/zh-cn.js"></script>
 
     <link href="contents/formdesigner.css" rel="stylesheet" />
+    <script src="scripts/formdesigner.js"></script>
 </head>
 <body>
     <div class="ui-layout-center">
@@ -28,10 +30,12 @@
         </div>
     </div>
     <div class="ui-layout-south">操作消息</div>
-    <div class="ui-layout-east">属性</div>
+    <div class="ui-layout-east">
+
+    </div>
     <div class="ui-layout-west">
-        <div class="ui-button ui-widget ui-corner-all btn-block btn-control">Label</div>
-        <div class="ui-button ui-widget ui-corner-all btn-block btn-control">TextBox</div>
+        <div control="Label" class="ui-button ui-widget ui-corner-all btn-block btn-control">Label</div>
+        <div control="TextBox" class="ui-button ui-widget ui-corner-all btn-block btn-control">TextBox</div>
         <div class="ui-button ui-widget ui-corner-all btn-block btn-control">Multiline TextBox</div>
         <div class="ui-button ui-widget ui-corner-all btn-block btn-control">Radio Button</div>
         <div class="ui-button ui-widget ui-corner-all btn-block btn-control">CheckBox</div>
@@ -44,6 +48,35 @@
             $('body').layout({ applyDefaultStyles: true });
 
             var ue = UE.getEditor('editor');
+
+            ue.addListener("mousedown", function (t, evt) {
+                evt = evt || window.event;
+                var el = evt.target || evt.srcElement;
+
+                if (el != null && typeof (el) != 'undefined') {
+                    $(".ui-layout-east").html(el.nodeName + " property");
+                }
+            })
+
+            $(".ui-layout-west .btn-control").bind("click", function () {
+                var ctl = $(this).attr("control");
+                var html = "";
+                switch (ctl) {
+                    case "Label":
+                        html = "<label by='topspeed'>Label</label>"
+                        break;
+                    case "TextBox":
+                        html = "<input by='topspeed' type='text'/>"
+                        break;
+                }
+
+                Insert(html);
+            });
+
+
+            function Insert(html) {
+                ue.execCommand("insertHtml", html);
+            }
         });
     </script>
 </body>
