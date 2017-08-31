@@ -229,7 +229,7 @@ var Utility = {
 
         $(".ui-layout-south").prepend("<div class='" + option.Class + "'>" + option.Message + "[" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "]</div>");
     },
-    IsInArray(arrs, id) {
+    IsInArray: function (arrs, id) {
         for (var i = 0; i < arrs.length; i++) {
             var arr = arrs[i];
             if (arr.Id == id) {

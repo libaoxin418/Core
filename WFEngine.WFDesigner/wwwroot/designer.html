@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>工作流设计器</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
     <script src="libs/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
     <link href="libs/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
@@ -10,6 +11,7 @@
 
     <script src="libs/jquery-ui-1.12.1/external/jquery.layout-latest.js"></script>
     <link href="libs/jquery-ui-1.12.1/external/layout-default-latest.css" rel="stylesheet" />
+
     <script src="libs/jquery-ui-1.12.1/external/jquery.contextmenu.r2.js"></script>
 
     <script src="libs/jsPlumb/jquery.jsPlumb-1.4.0-all.js"></script>
@@ -67,10 +69,12 @@
                 flowDesign.GetWorkflowDesign(workflowId);
             }
 
+            //添加节点
             $("#addNode").click(function () {
                 flowDesign.AddNode({ nodeType: "node-normal", nodeName: "新建审批节点", css: { "left": "50%" } });
             });
 
+            //添加开始节点
             $("#addStartNode").click(function () {
                 if (Utility.IsInArray(window.Workflow.Nodes, "node-start")) {
                     Utility.WriteLog({ "Class": "wf-waring", "Message": "已存在开始节点！" });
@@ -80,6 +84,7 @@
                 flowDesign.AddNode({ nodeType: "node-start", nodeName: "开始节点", css: {} });
             });
 
+            //添加结束节点
             $("#addEndNode").click(function () {
                 if (Utility.IsInArray(window.Workflow.Nodes, "node-end")) {
                     Utility.WriteLog({ "Class": "wf-waring", "Message": "已存在结束节点！" });
@@ -89,6 +94,7 @@
                 flowDesign.AddNode({ nodeType: "node-end", nodeName: "结束节点", css: { "right": "0px" } });
             });
 
+            //清空画布
             $("#ClearDesign").click(function () {
                 if (confirm("确定要清空画布上所有的节点吗？此过程无法还原！")) {
                     flowDesign.Clear();
