@@ -1,0 +1,26 @@
+﻿body {
+}
+
+.ui-layout-north > div {
+    width: 50%;
+    float: left;
+}
+
+.ui-layout-north .opration-button {
+    text-align: right;
+}
+
+.ui-layout-north .logo-title {
+    font-size: 25px;
+    color: #fff;
+    height: 30px;
+    line-height: 30px;
+}
+.ui-layout-north {
+    background-color: #438eb9 !important
+}
+
+.ui-layout-west .btn-control {
+width:80%;
+margin-bottom:2px;
+}
