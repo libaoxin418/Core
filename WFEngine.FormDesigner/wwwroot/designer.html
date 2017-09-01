@@ -16,7 +16,8 @@
     <script src="libs/ueditor1_4_3/lang/zh-cn/zh-cn.js"></script>
 
     <link href="contents/formdesigner.css" rel="stylesheet" />
-    <script src="scripts/formdesigner.js"></script>
+
+    <link href="libs/bootstrap/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
     <div class="ui-layout-center">
@@ -26,23 +27,26 @@
     <div class="ui-layout-north">
         <div class="logo-title">极速表单设计器</div>
         <div class="opration-button">
-
+            <input class="btn btn-default" type="button" id="btnformData" value="表单数据">
+            <input class="btn btn-default" type="button" id="btnSaveform" value="保存表单">
         </div>
     </div>
-    <div class="ui-layout-south">操作消息</div>
+    <div class="ui-layout-south"></div>
     <div class="ui-layout-east">
-
+        <div id="PropertyEditorTitle">属性编辑器</div>
+        <div id="PropertyEditor"></div>
     </div>
     <div class="ui-layout-west">
-        <div control="Label" class="ui-button ui-widget ui-corner-all btn-block btn-control">Label</div>
-        <div control="TextBox" class="ui-button ui-widget ui-corner-all btn-block btn-control">TextBox</div>
-        <div class="ui-button ui-widget ui-corner-all btn-block btn-control">Multiline TextBox</div>
-        <div class="ui-button ui-widget ui-corner-all btn-block btn-control">Radio Button</div>
-        <div class="ui-button ui-widget ui-corner-all btn-block btn-control">CheckBox</div>
-        <div class="ui-button ui-widget ui-corner-all btn-block btn-control">PeoplePicker</div>
-        <div class="ui-button ui-widget ui-corner-all btn-block btn-control">Button</div>
-        <div class="ui-button ui-widget ui-corner-all btn-block btn-control">Select</div>
+        <div control="LABEL" class="ui-button ui-widget ui-corner-all btn-control">Label</div>
+        <div control="TEXTBOX" class="ui-button ui-widget ui-corner-all btn-control">TextBox</div>
+        <div control="TEXTAREA" class="ui-button ui-widget ui-corner-all btn-control">Multiline TextBox</div>
+        <div control="RADIO" class="ui-button ui-widget ui-corner-all btn-control">Radio Button</div>
+        <div control="CHECKBOX" class="ui-button ui-widget ui-corner-all btn-control">CheckBox</div>
+        <div control="BUTTON" class="ui-button ui-widget ui-corner-all btn-control">Button</div>
+        <div control="SELECT" class="ui-button ui-widget ui-corner-all btn-control">Select</div>
     </div>
+
+    <script src="scripts/formdesigner.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('body').layout({ applyDefaultStyles: true });
@@ -54,22 +58,29 @@
                 var el = evt.target || evt.srcElement;
 
                 if (el != null && typeof (el) != 'undefined') {
-                    $(".ui-layout-east").html(el.nodeName + " property");
+                    var phtml = "<ul>";
+
+                    var ctl = Utility.getControl($(el).attr("control"));
+
+                    for (var i = 0; i < ctl.Properties.length; i++) {
+                        var p = ctl.Properties[i];
+                        phtml = phtml + "<li>" + p.Name;
+
+                        phtml = phtml + p.Content;
+
+                        phtml = phtml + "</li>"
+                    }
+
+                    phtml += "</ul>"
+                    $("#PropertyEditor").html(phtml);
                 }
             })
 
             $(".ui-layout-west .btn-control").bind("click", function () {
                 var ctl = $(this).attr("control");
-                var html = "";
-                switch (ctl) {
-                    case "Label":
-                        html = "<label by='topspeed'>Label</label>"
-                        break;
-                    case "TextBox":
-                        html = "<input by='topspeed' type='text'/>"
-                        break;
-                }
+                var html = Utility.getControl(ctl).Content;
 
+                Utility.WriteLog({ "Class": "wf-info", "Message": "添加控件：" + ctl });
                 Insert(html);
             });
 
@@ -77,6 +88,8 @@
             function Insert(html) {
                 ue.execCommand("insertHtml", html);
             }
+
+            Utility.WriteLog({ "Class": "wf-info", "Message": "表单设计器初始化成功！" });
         });
     </script>
 </body>

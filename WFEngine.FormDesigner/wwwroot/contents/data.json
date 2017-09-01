@@ -1,0 +1,19 @@
+﻿{
+  "formConfig": {
+    "formid": "",
+    "author": "",
+    "created": "",
+    "config": {
+      "dbserver": "",
+      "dbname": "",
+      "table": "",
+      "fields": [
+        {
+          "name": "field1",
+          "type": ""
+        }
+      ]
+
+    }
+  }
+}

@@ -16,11 +16,51 @@
     height: 30px;
     line-height: 30px;
 }
+
 .ui-layout-north {
     background-color: #438eb9 !important
 }
 
 .ui-layout-west .btn-control {
-width:80%;
-margin-bottom:2px;
+    width: 80%;
+    margin-bottom: 2px;
+}
+
+.wf-waring {
+    background-image: url(images/icon-warning.png);
+    font-size: 12px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-left: 20px;
+}
+
+.wf-error {
+    background-image: url(images/icon-error.png);
+    font-size: 12px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-left: 20px;
+}
+
+
+.wf-info {
+    background-image: url(images/icon-info.png);
+    font-size: 12px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-left: 20px;
+}
+
+.ui-layout-east ul {
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+}
+
+.ui-layout-east input {
+    width: 90%;
+}
+
+.ui-layout-east #PropertyEditorTitle {
+height:40px;
 }
