@@ -25,7 +25,7 @@
         </script>
     </div>
     <div class="ui-layout-north">
-        <div class="logo-title">极速表单设计器</div>
+        <div class="logo-title">表单设计器</div>
         <div class="opration-button">
             <input class="btn btn-default" type="button" id="btnformData" value="表单数据">
             <input class="btn btn-default" type="button" id="btnSaveform" value="保存表单">
@@ -71,6 +71,7 @@
                         phtml = phtml + "</li>"
                     }
 
+                    phtml = phtml + "<li><input class='btn btn-default' type='button' click='' value='保存属性'></li>"
                     phtml += "</ul>"
                     $("#PropertyEditor").html(phtml);
                 }
