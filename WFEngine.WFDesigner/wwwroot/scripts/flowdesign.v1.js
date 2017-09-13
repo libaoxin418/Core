@@ -5,12 +5,19 @@
             var nodeId = $(t).attr("id");
             $.get("/templates/Node.html?nodeId=" + nodeId, { cache: false }, function (result) {
                 $("#wfdesinger-contaner").append(result);
-
-                $("#dialog").dialog({ width: 800, height: 400 });
+                $("#node-tab-content").draggable({ handle: "#node-tab-header" });
             });
         },
         "commandDelete": function (t) {
             $(t).remove();
+            var nodes = window.Workflow.Nodes;
+            for (var i = 0; i < nodes.length; i++) {
+                var node = nodes[i];
+                if (t.id == node.Id) {
+                    window.Workflow.Nodes.splice(i, 1);
+                    break;
+                }
+            }
             Utility.WriteLog({ "Class": "wf-info", "Message": "节点（" + $(t).text() + "）删除成功！" });
         }
     },
@@ -144,12 +151,11 @@ var flowDesign = {
             .attr("node_to", "")
             .css(option.css)
             .addClass("wf_node")
-            .html("<span title='点击连线' class='generate_line " + nodeType + "'></span>" + option.nodeName)
+            .html("<span title='点击连线' class='generate_line " + nodeType + "'></span><span class='node_Name'>" + option.nodeName + "</span>")
             .dblclick(function () {
                 $.get("/templates/Node.html?nodeId=" + nodeId, { cache: false }, function (result) {
                     $("#wfdesinger-contaner").append(result);
-
-                    $("#dialog").dialog({ width: 800, height: 400 });
+                    $("#node-tab-content").draggable({ handle: "#node-tab-header" });
                 });
             })
             .mousedown(function (e) {

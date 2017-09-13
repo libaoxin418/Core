@@ -1,30 +1,41 @@
-﻿<div id="dialog" title="节点配置">
-    <div id="tabs">
-        <ul>
-            <li><a href="#tabs-1">常规</a></li>
-            <li><a href="ajax/content1.html">表单</a></li>
-            <li><a href="ajax/content2.html">权限</a></li>
-            <li><a href="ajax/content3-slow.php">操作</a></li>
-            <li><a href="ajax/content4-broken.php">其他</a></li>
-        </ul>
-        <div id="tabs-1">
+﻿<div id="node-tab-pop">
+    <div id="node-tab-layer">
+        
+    </div>
+    <div id="node-tab-content" title="节点配置">
+        <div id="node-tab-header">
+            <div>节点配置</div>
+            <div></div>
+        </div>
+        <div id="tabs">
             <ul>
-                <li>节点名称<input type="text" /></li>
-                <li>任务名称<input type="text" /></li>
+                <li><a href="#tabs-1">常规</a></li>
+                <li><a href="ajax/content1.html">表单</a></li>
+                <li><a href="ajax/content2.html">权限</a></li>
+                <li><a href="ajax/content3-slow.php">操作</a></li>
+                <li><a href="ajax/content4-broken.php">其他</a></li>
             </ul>
+            <div id="tabs-1">
+                <div>
+                    <ul>
+                        <li>节点名称<input type="text" id="tab-node-name" /></li>
+                        <li>任务名称<input type="text" /></li>
+                    </ul>
+                </div>
+                <div class="tab-btn-opration">
+                    <div class="ui-button ui-widget ui-corner-all" id="tab1Save">保存</div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<script type="text/javascript">
-    $(function () {
-        $("#tabs").tabs({
-            beforeLoad: function (event, ui) {
-                ui.jqXHR.fail(function () {
-                    ui.panel.html(
-                        "Couldn't load this tab. We'll try to fix this as soon as possible. " +
-                        "If this wouldn't be a demo.");
-                });
-            }
+    <script type="text/javascript">
+        $(function () {
+            $("#tab1Save").click(function () {
+                debugger;
+                var nodeid = Utility.GetQueryString("nodeId");
+                var nodeNewName = $("#tab-node-name").val();
+                $("#" + nodeid).find(".node_Name").html(nodeNewName);
+            });
         });
-    });
-</script>
+    </script>
+</div>

@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="ui-layout-north">
-        <div class="logo-title">极速工作流设计器</div>
+        <div class="logo-title">工作流设计器</div>
         <div class="opration-button">
             <input class="btn btn-default" type="button" value="工作流信息">
             <input class="btn btn-default" type="button" id="ClearDesign" value="清空工作流">
@@ -45,9 +45,9 @@
 
     </div>
     <div class="ui-layout-west">
-        <div id="addStartNode" class="ui-button ui-widget ui-corner-all btn-block">开始节点</div>
-        <div id="addEndNode" class="ui-button ui-widget ui-corner-all btn-block">结束节点</div>
-        <div id="addNode" class="ui-button ui-widget ui-corner-all btn-block">普通节点</div>
+        <div id="addStartNode" nodeType="node-start" class="ui-button ui-widget ui-corner-all btn-block">开始节点</div>
+        <div id="addEndNode" nodeType="node-end" class="ui-button ui-widget ui-corner-all btn-block">结束节点</div>
+        <div id="addNode" nodeType="node-normal" class="ui-button ui-widget ui-corner-all btn-block">普通节点</div>
     </div>
 
     <div id="NodeMenu" style="display:none;">
@@ -69,9 +69,48 @@
                 flowDesign.GetWorkflowDesign(workflowId);
             }
 
+            $("#flowdesign_canvas").droppable({
+                disabled: true,
+                drop: function (event, ui) {
+                    var nodeType = ui.draggable.attr("nodeType");
+                    if (nodeType == "node-start") {
+                        if (Utility.IsInArray(window.Workflow.Nodes, "node-start")) {
+                            Utility.WriteLog({ "Class": "wf-waring", "Message": "已存在开始节点！" });
+                            return;
+                        }
+                    }
+                    if (nodeType == "node-end") {
+                        if (Utility.IsInArray(window.Workflow.Nodes, "node-end")) {
+                            Utility.WriteLog({ "Class": "wf-waring", "Message": "已存在结束节点！" });
+                            return;
+                        }
+                    }
+
+                    flowDesign.AddNode({ nodeType: nodeType, nodeName: ui.draggable.html(), css: { "left": ui.position.left, "top": ui.position.top } });
+                }
+            });
+            $(".ui-layout-west div").draggable({
+                helper: "clone",
+                connectToSortable: "#flowdesign_canvas",
+                appendTo: "#flowdesign_canvas",
+                cursor: "move",
+                start: function (event, ui) {
+                    $("#flowdesign_canvas").droppable("enable");
+
+                    $('.ui-draggable-dragging').addClass("wf_node");
+                    $('.ui-draggable-dragging').html("<span title='点击连线' class='generate_line " + ui.helper.attr("nodeType") + "'></span><span class='node_Name'>" + ui.helper.html() + "</span>")
+                },
+                drag: function (event, ui) {
+
+                },
+                stop: function (event, ui) {
+                    $("#flowdesign_canvas").droppable("disable");
+                }
+            });
+
             //添加节点
             $("#addNode").click(function () {
-                flowDesign.AddNode({ nodeType: "node-normal", nodeName: "新建审批节点", css: { "left": "50%" } });
+                flowDesign.AddNode({ nodeType: "node-normal", nodeName: "普通节点", css: { "left": "50%" } });
             });
 
             //添加开始节点
