@@ -1,0 +1,72 @@
+﻿<div id="node-tab-pop">
+    <div id="node-tab-layer">
+
+    </div>
+    <div id="node-tab-content">
+        <div id="node-tab-header">
+            <div>分支节点</div>
+            <div><img src="../contents/images/close_layer.png" id="close-layer-icon" /></div>
+        </div>
+        <div id="node-tab-tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#node-tab-normal" role="tab" data-toggle="tab">常规</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="node-tab-normal">
+                    <div class="form-inline tab-content-container">
+                        <div class="form-group form-group-custom">
+                            <label for="tab-details-nodeName" requiredlabel>节点名称</label>
+                            <input type="text" class="form-control" id="tab-details-nodeName" required placeholder="节点名称">
+                        </div>
+                        <div class="form-group form-group-custom">
+                            <label>判断条件</label>
+                            <button class="btn btn-default" id="tab-details-addSwitchButton">添加</button>
+                        </div>
+                        <div id="tab-details-switchButtons">
+                            <div class='form-group form-group-custom switchButtons'>
+                                <select class='tab-details-allformfield'></select>
+                                <select class='tab-details-allopration'>
+                                    <option>&lt;</option>
+                                    <option>&le;</option>
+                                    <option>&gt;</option>
+                                    <option>&ge;</option>
+                                    <option>=</option>
+                                    <option>∈</option>
+                                </select>
+                                <select class='tab-details-allvalMethod'>
+                                    <option>固定值</option>
+                                    <option>API返回值</option>
+                                    <option>日期</option>
+                                </select>
+                                <input type="text" class="form-control" id="tab-details-allvalMethod" placeholder="值">
+                                <button class='btn btn-default tab-details-removeSwitchButton' id='removeId'>移除</button>
+                                <span class='ui-icon ui-icon-arrowthick-2-n-s'></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content-opration">
+                        <button type="button" class="btn btn-default" id="tab1Save">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function LoadCompleted() {
+            debugger;
+            var nodeid = $("#node-tab-pop").attr("nodeid");
+            var nodeName = $("#" + nodeid).find(".node_Name").html();
+            $("#tab-details-nodeName").val(nodeName);
+        }
+
+        $(function () {
+            $("#node-tab-content").css({ "height": 500, "width": 720, "margin-left": -360 });
+
+            //绑定字段
+
+            $("#tab-details-switchButtons").sortable({
+                containment: "parent"
+            });
+        });
+    </script>
+</div>

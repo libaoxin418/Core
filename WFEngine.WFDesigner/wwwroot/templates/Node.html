@@ -1,40 +1,196 @@
 ﻿<div id="node-tab-pop">
     <div id="node-tab-layer">
-        
+
     </div>
-    <div id="node-tab-content" title="节点配置">
+    <div id="node-tab-content">
         <div id="node-tab-header">
-            <div>节点配置</div>
-            <div></div>
+            <div>审批节点</div>
+            <div><img src="../contents/images/close_layer.png" id="close-layer-icon" /></div>
         </div>
-        <div id="tabs">
-            <ul>
-                <li><a href="#tabs-1">常规</a></li>
-                <li><a href="ajax/content1.html">表单</a></li>
-                <li><a href="ajax/content2.html">权限</a></li>
-                <li><a href="ajax/content3-slow.php">操作</a></li>
-                <li><a href="ajax/content4-broken.php">其他</a></li>
+        <div id="node-tab-tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#node-tab-normal" role="tab" data-toggle="tab">常规</a></li>
+                <li><a href="#node-tab-permission" role="tab" data-toggle="tab">权限</a></li>
+                <li><a href="#node-tab-form" role="tab" data-toggle="tab">表单</a></li>
+                <li><a href="#node-tab-script" role="tab" data-toggle="tab">脚本</a></li>
+                <li><a href="#node-tab-theme" role="tab" data-toggle="tab">样式</a></li>
+                <li><a href="#node-tab-other" role="tab" data-toggle="tab">其他</a></li>
             </ul>
-            <div id="tabs-1">
-                <div>
-                    <ul>
-                        <li>节点名称<input type="text" id="tab-node-name" /></li>
-                        <li>任务名称<input type="text" /></li>
-                    </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="node-tab-normal">
+                    <div class="form-inline tab-content-container">
+                        <div class="form-group form-group-custom">
+                            <label for="tab-details-nodeName" requiredlabel>节点名称</label>
+                            <input type="text" class="form-control" id="tab-details-nodeName" required placeholder="节点名称">
+                        </div>
+                        <div class="form-group form-group-custom">
+                            <label for="tab-details-taskTitle">任务标题</label>
+                            <input type="text" class="form-control" id="tab-details-taskTitle" placeholder="任务标题">
+                        </div>
+                        <div class="form-group form-group-custom">
+                            <label>审批按钮</label>
+                            <button class="btn btn-default" id="tab-details-addApprovalButton">添加</button>
+                        </div>
+                        <div id="tab-details-approvalButtons">
+
+                        </div>
+                    </div>
+                    <div class="tab-content-opration">
+                        <button type="button" class="btn btn-default" id="tab1Save">保存</button>
+                    </div>
                 </div>
-                <div class="tab-btn-opration">
-                    <div class="ui-button ui-widget ui-corner-all" id="tab1Save">保存</div>
+                <div role="tabpanel" class="tab-pane" id="node-tab-permission">
+                    1、只有当前审批人和代理人有权限看表单
+                    2、表单字段的权限:
+                </div>
+                <div role="tabpanel" class="tab-pane" id="node-tab-form">
+                    初始表单
+                    审批的form页面
+                    审批的手机form页面
+                </div>
+                <div role="tabpanel" class="tab-pane" id="node-tab-script">
+                    <div class="tab-content-container">
+                        <div class="form-group">
+                            <label>JavaScript脚本</label>
+                            <textarea></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>C#脚本</label>
+                            <textarea></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>SQL脚本</label>
+                            <textarea></textarea>
+                        </div>
+                    </div>
+                    <div class="tab-content-opration">
+                        <button type="button" class="btn btn-default" id="tab3Save">保存</button>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="node-tab-theme">
+                    <div class="form-inline tab-content-container">
+                        <div class="form-group form-group-custom">
+                            <label for="tab-details-csslink">引用CSS</label>
+                            <input type="text" class="form-control" id="tab-details-csslink" placeholder="样式路径">
+                        </div>
+                        <div class="form-group form-group-custom">
+                            <label>CSS内容</label>
+                            <textarea></textarea>
+                        </div>
+                    </div>
+                    <div class="tab-content-opration">
+                        <button type="button" class="btn btn-default" id="tab4Save">保存</button>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="node-tab-other">
+                    <div class="form-inline tab-content-container">
+                        <div class="checkbox form-group-custom">
+                            <label>
+                                <input type="checkbox" id="tab-details-sendemail">是否发送邮件
+                            </label>
+                        </div>
+                        <div class="form-group form-group-custom">
+                            <label for="tab-details-EmailTmpl">邮件模板</label>
+                            <textarea></textarea>
+                        </div>
+                    </div>
+                    <div class="tab-content-opration">
+                        <button type="button" class="btn btn-default" id="tab5Save">保存</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <script type="text/javascript">
+        function LoadCompleted() { }
+
         $(function () {
+
             $("#tab1Save").click(function () {
-                debugger;
-                var nodeid = Utility.GetQueryString("nodeId");
-                var nodeNewName = $("#tab-node-name").val();
+                if (!utility.preCheck("#node-tab-normal")) {
+                    return;
+                }
+
+                var nodeid = $("#node-tab-pop").attr("nodeid");
+                var nodeNewName = $("#tab-details-nodeName").val();
+                var nodeTask = $("#tab-details-taskTitle").val();
                 $("#" + nodeid).find(".node_Name").html(nodeNewName);
+
+                var current_node = utility.getCurrentNode(nodeid);
+
+                current_node.Node.Name = nodeNewName;
+                current_node.Node.TaskName = nodeTask;
+
+                //保存按钮
+                current_node.Node.Buttons = [];
+                $(".approvalButton").each(function () {
+                    var newbutton = { PreNode: -1, NextNode: -1 };
+                    newbutton.Index = $(this).index();
+                    newbutton.Id = "button" + new Date().getTime();
+                    newbutton.Name = $(this).find(".tab-details-button").val();
+
+                    if (!utility.isNullOrUndefined(current_node.PreNode)) {
+                        newbutton.PreNode = current_node.PreNode.Id;
+                    }
+
+                    if (!utility.isNullOrUndefined(current_node.NextNode)) {
+                        newbutton.NextNode = current_node.NextNode.Id;
+                    }
+
+                    current_node.Node.Buttons.push(newbutton);
+
+                });
+
+
+                $(".ui-layout-east").html(JSON.stringify(window.Workflow));
+
+                utility.writeLog({ "Class": "wf-info", "Message": "节点配置：常规卡片保存成功" });
+            });
+
+
+            $("#tab5Save").click(function () {
+                var nodeid = $("#node-tab-pop").attr("nodeid");
+
+                var current_node = utility.getCurrentNode(nodeid);
+                current_node.Node.IsSendEmail = $("#tab-details-sendemail").get(0).checked;
+                debugger;
+                $(".ui-layout-east").html(JSON.stringify(window.Workflow));
+            });
+
+
+            $("#tab-details-addApprovalButton").click(function () {
+                var nodes = window.Workflow.Nodes;
+                var removeId = "remove" + new Date().getTime();
+                var newbutton = "<div class='form-group form-group-custom approvalButton'>"
+                    + "<input type='text' class='form-control tab-details-button' placeholder='按钮名称' required>"
+                    + "<select class='tab-details-allnodes'>"
+
+                for (var i = 0; i < nodes.length; i++) {
+                    newbutton += "<option value='" + nodes[i].Id + "'>" + nodes[i].Name + "</option>";
+                }
+
+                newbutton += "</select><button class='btn btn-default tab-details-removeApprovalButton' id='" + removeId + "'>移除</button><span class='ui-icon ui-icon-arrowthick-2-n-s'></span></div>";
+
+                $("#node-tab-normal #tab-details-approvalButtons").append(newbutton);
+
+
+                $("#" + removeId).click(function () {
+                    $(this).parents(".approvalButton").remove();
+                    utility.writeLog({ "Class": "wf-info", "Message": "常规卡片：移除了一个审批按钮" });
+                });
+
+                utility.writeLog({ "Class": "wf-info", "Message": "常规卡片：添加了一个审批按钮" });
+
+            });
+
+
+            var nodes = window.Workflow.Nodes;
+            for (var i = 0; i < nodes.length; i++) {
+                $(".tab-details-allnodes").append("<option value='" + nodes[i].Id + "'>" + nodes[i].Name + "</option>");
+            }
+
+            $("#tab-details-approvalButtons").sortable({
+                containment: "parent"
             });
         });
     </script>

@@ -25,7 +25,7 @@
                     "TaskUrl": "/demo/item.html?itemid={DB.Get.Item.Id}",
                     "IsSendEmail": true,
                     "EmailTmpl": "",
-                    "Expire":{"Minutes": 720,"NodeId": ""},
+                    "Expire": { "Minutes": 720, "NodeId": "" },
                     "Countersign": {
                         "Enable": false,
                         "NextNodes": [
@@ -33,7 +33,7 @@
                             { "Rate": "", "NodeId": "" }
                         ]
                     },
-                    "Form": {"Item": true,"Task": true,"History": true},
+                    "Form": { "Item": true, "Task": true, "History": true },
                     "Approvers": {
                         "Person": ["lisi"],
                         "Group": [],
@@ -52,6 +52,12 @@
                             "Id": "Approval",
                             "Name": "通过",
                             "PreNode": -1,
+                            "NextNode": -1
+                        }
+                    ],
+                    "Switch": [
+                        {
+                            "Case": "",
                             "NextNode": -1
                         }
                     ],

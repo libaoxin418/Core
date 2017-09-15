@@ -15,6 +15,7 @@
     <script src="libs/jquery-ui-1.12.1/external/jquery.contextmenu.r2.js"></script>
 
     <script src="libs/jsPlumb/jquery.jsPlumb-1.4.0-all.js"></script>
+    <script src="libs/bootstrap/bootstrap.js"></script>
     <link href="libs/bootstrap/bootstrap.css" rel="stylesheet" />
     <link href="contents/wfdesigner.css" rel="stylesheet" />
 
@@ -47,7 +48,8 @@
     <div class="ui-layout-west">
         <div id="addStartNode" nodeType="node-start" class="ui-button ui-widget ui-corner-all btn-block">开始节点</div>
         <div id="addEndNode" nodeType="node-end" class="ui-button ui-widget ui-corner-all btn-block">结束节点</div>
-        <div id="addNode" nodeType="node-normal" class="ui-button ui-widget ui-corner-all btn-block">普通节点</div>
+        <div id="addNode" nodeType="node-approval" class="ui-button ui-widget ui-corner-all btn-block">审批节点</div>
+        <div id="addSwitchNode" nodeType="node-switch" class="ui-button ui-widget ui-corner-all btn-block">判断节点</div>
     </div>
 
     <div id="NodeMenu" style="display:none;">
@@ -64,7 +66,7 @@
 
             $('body').layout({ applyDefaultStyles: true });
             flowDesign.init();
-            var workflowId = Utility.GetQueryString("workflowId");
+            var workflowId = utility.getQueryString("workflowId");
             if (workflowId != null) {
                 flowDesign.GetWorkflowDesign(workflowId);
             }
@@ -74,14 +76,14 @@
                 drop: function (event, ui) {
                     var nodeType = ui.draggable.attr("nodeType");
                     if (nodeType == "node-start") {
-                        if (Utility.IsInArray(window.Workflow.Nodes, "node-start")) {
-                            Utility.WriteLog({ "Class": "wf-waring", "Message": "已存在开始节点！" });
+                        if (utility.isInArray(window.Workflow.Nodes, "node-start")) {
+                            utility.writeLog({ "Class": "wf-waring", "Message": "已存在开始节点！" });
                             return;
                         }
                     }
                     if (nodeType == "node-end") {
-                        if (Utility.IsInArray(window.Workflow.Nodes, "node-end")) {
-                            Utility.WriteLog({ "Class": "wf-waring", "Message": "已存在结束节点！" });
+                        if (utility.isInArray(window.Workflow.Nodes, "node-end")) {
+                            utility.writeLog({ "Class": "wf-waring", "Message": "已存在结束节点！" });
                             return;
                         }
                     }
@@ -110,13 +112,13 @@
 
             //添加节点
             $("#addNode").click(function () {
-                flowDesign.AddNode({ nodeType: "node-normal", nodeName: "普通节点", css: { "left": "50%" } });
+                flowDesign.AddNode({ nodeType: "node-approval", nodeName: "审批节点", css: { "left": "50%" } });
             });
 
             //添加开始节点
             $("#addStartNode").click(function () {
-                if (Utility.IsInArray(window.Workflow.Nodes, "node-start")) {
-                    Utility.WriteLog({ "Class": "wf-waring", "Message": "已存在开始节点！" });
+                if (utility.isInArray(window.Workflow.Nodes, "node-start")) {
+                    utility.writeLog({ "Class": "wf-waring", "Message": "已存在开始节点！" });
                     return;
                 }
 
@@ -125,8 +127,8 @@
 
             //添加结束节点
             $("#addEndNode").click(function () {
-                if (Utility.IsInArray(window.Workflow.Nodes, "node-end")) {
-                    Utility.WriteLog({ "Class": "wf-waring", "Message": "已存在结束节点！" });
+                if (utility.isInArray(window.Workflow.Nodes, "node-end")) {
+                    utility.writeLog({ "Class": "wf-waring", "Message": "已存在结束节点！" });
                     return;
                 }
 
@@ -142,7 +144,7 @@
                     });
                     flowDesign.InitCanvas();
 
-                    Utility.WriteLog({ "Class": "wf-info", "Message": "清空了当前画布！" });
+                    utility.writeLog({ "Class": "wf-info", "Message": "清空了当前画布！" });
                 }
             });
 

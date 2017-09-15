@@ -9,7 +9,7 @@ using WFEngine.Utility.Models;
 
 namespace WFEngine.Core.Services
 {
-    public class WorkflowDesignerService: BaseService
+    public class WorkflowDesignerService : BaseService
     {
         public WorkflowDesignerService(WorkflowContext context)
         {
@@ -28,6 +28,45 @@ namespace WFEngine.Core.Services
             base._context.Add(wfmodel);
             base._context.SaveChanges();
 
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// 只保存邮件模板
+        /// </summary>
+        /// <param name="contents"></param>
+        /// <returns></returns>
+        public string SaveEmailTemplate(string contents)
+        {
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// 邮件模板和工作流简历关联关系
+        /// </summary>
+        /// <returns></returns>
+        public string BindEmailWorkflow()
+        {
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// 只保存脚本代码
+        /// </summary>
+        /// <param name="contents"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        public string SaveScript(string contents, ScriptMode mode)
+        {
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// 脚本和工作流建立关系
+        /// </summary>
+        /// <returns></returns>
+        public string BindScriptWorkflow()
+        {
             return string.Empty;
         }
     }

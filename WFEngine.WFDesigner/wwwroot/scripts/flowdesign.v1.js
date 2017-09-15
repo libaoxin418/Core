@@ -2,11 +2,7 @@
     processData: {},//步骤节点数据
     processMenus: {
         "commandAttribute": function (t) {
-            var nodeId = $(t).attr("id");
-            $.get("/templates/Node.html?nodeId=" + nodeId, { cache: false }, function (result) {
-                $("#wfdesinger-contaner").append(result);
-                $("#node-tab-content").draggable({ handle: "#node-tab-header" });
-            });
+            flowDesign.SetNodeConfig(t);
         },
         "commandDelete": function (t) {
             $(t).remove();
@@ -18,7 +14,7 @@
                     break;
                 }
             }
-            Utility.WriteLog({ "Class": "wf-info", "Message": "节点（" + $(t).text() + "）删除成功！" });
+            utility.writeLog({ "Class": "wf-info", "Message": "节点（" + $(t).text() + "）删除成功！" });
         }
     },
     menuStyle: {
@@ -96,8 +92,17 @@ var flowDesign = {
                 ["Arrow", { location: 1 }],
                 ["Label", {
                     location: 0.1,
-                    id: "label",
-                    cssClass: "aLabel"
+                    id: "label" + new Date().getTime(),
+                    label: "备注",
+                    cssClass: "labelTheme",
+                    events: {
+                        click: function (parms) {
+                            var lblnote = prompt("请输入内容", "");
+                            if (lblnote != "" && lblnote != null) {
+                                parms.setLabel(lblnote);
+                            }
+                        }
+                    }
                 }]
             ],
             Anchor: 'Continuous',
@@ -106,14 +111,15 @@ var flowDesign = {
         });
         jsPlumb.setRenderMode(jsPlumb.SVG);
 
-        jsPlumb.bind("click", function (c) {
+        jsPlumb.bind("dblclick", function (c) {
             if (confirm("你确定取消连接吗?")) {
                 jsPlumb.detach(c);
-                Utility.WriteLog({ "Class": "wf-info", "Message": "连接删除成功！" });
+                $("#" + c.sourceId).attr("node_to", "");
+                utility.writeLog({ "Class": "wf-info", "Message": "连接删除成功！" });
             }
         });
 
-        Utility.WriteLog({ "Class": "wf-info", "Message": "工作流设计器初始化成功！" });
+        utility.writeLog({ "Class": "wf-info", "Message": "工作流设计器初始化成功！" });
     },
 
     GetWorkflowDesign: function (workflowId) {
@@ -123,6 +129,37 @@ var flowDesign = {
             success: function (result) {
                 //DispWorkflowDesign(result);
             }
+        });
+    },
+
+    SetNodeConfig: function (t) {
+        var nodeId = $(t).attr("id");
+        var nodetype = $(t).attr("nodeType");
+        var nodeUrl;
+        switch (nodetype) {
+            case "node-switch":
+                nodeUrl = "/templates/switch.html?nodeId=" + nodeId;
+                break;
+            case "node-start":
+                nodeUrl = "/templates/start.html?nodeId=" + nodeId;
+                break;
+            case "node-end":
+                nodeUrl = "/templates/end.html?nodeId=" + nodeId;
+                break;
+            default:
+                nodeUrl = "/templates/node.html?nodeId=" + nodeId;
+                break;
+        }
+
+        $.get(nodeUrl, { "r": Math.random() }, function (result) {
+            $("#wfdesinger-contaner").append(result);
+            $("#node-tab-pop").attr("NodeId", nodeId);
+            $("#close-layer-icon").click(function () {
+                $("#node-tab-pop").remove();
+            });
+            $("#node-tab-content").draggable({ handle: "#node-tab-header" });
+
+            LoadCompleted();
         });
     },
 
@@ -143,20 +180,18 @@ var flowDesign = {
         var nodeDiv = document.createElement("div");
         var nodeId = "Node" + date.getTime();
 
-        if (nodeType != "node-normal") {
+        if (nodeType == "node-start" || nodeType == "node-end") {
             nodeId = nodeType;
         }
 
         $(nodeDiv).attr("id", nodeId)
             .attr("node_to", "")
+            .attr("nodeType", nodeType)
             .css(option.css)
             .addClass("wf_node")
             .html("<span title='点击连线' class='generate_line " + nodeType + "'></span><span class='node_Name'>" + option.nodeName + "</span>")
             .dblclick(function () {
-                $.get("/templates/Node.html?nodeId=" + nodeId, { cache: false }, function (result) {
-                    $("#wfdesinger-contaner").append(result);
-                    $("#node-tab-content").draggable({ handle: "#node-tab-header" });
-                });
+                flowDesign.SetNodeConfig(this);
             })
             .mousedown(function (e) {
                 if (e.which == 3) { //右键绑定
@@ -179,39 +214,48 @@ var flowDesign = {
             hoverPaintStyle: this.connectorHoverStyle,
             beforeDrop: function (params) {
                 if (params.sourceId === params.targetId) {
-                    Utility.WriteLog({ "Class": "wf-waring", "Message": "当前工作流版本不允许节点连接自己" });
+                    utility.writeLog({ "Class": "wf-waring", "Message": "当前工作流版本不允许节点连接自己" });
                     return false
                 };
 
                 if (params.sourceId == "node-end") {
-                    Utility.WriteLog({ "Class": "wf-waring", "Message": "结束节点不允许连接到其他节点" });
+                    utility.writeLog({ "Class": "wf-waring", "Message": "结束节点不允许连接到其他节点" });
                     return false
                 }
 
                 if (params.targetId == "node-start") {
-                    Utility.WriteLog({ "Class": "wf-waring", "Message": "不允许其他节点连接到开始节点" });
+                    utility.writeLog({ "Class": "wf-waring", "Message": "不允许其他节点连接到开始节点" });
                     return false
                 }
 
                 if (params.sourceId == "node-start" && params.targetId == "node-end") {
-                    Utility.WriteLog({ "Class": "wf-waring", "Message": "不允许直接从开始节点连接到结束节点" });
+                    utility.writeLog({ "Class": "wf-waring", "Message": "不允许直接从开始节点连接到结束节点" });
+                    return false
+                }
+
+                if ($("#" + params.sourceId).attr("node_to") == params.targetId) {
+                    utility.writeLog({ "Class": "wf-waring", "Message": "两节点之间同一方向只能连接一次" });
                     return false
                 }
 
                 //保存节点信息
+                $("#" + params.sourceId).attr("node_to", params.targetId);
+
+
                 return true;
             }
         });
 
         var newNode = {};
-        newNode.Index = 0;
+        newNode.Index = nodes.length;
         newNode.Id = nodeId;
+        newNode.Name = option.nodeName;
         nodes.push(newNode);
 
         $(".ui-layout-east").html(JSON.stringify(window.Workflow));
 
         //记录日志
-        Utility.WriteLog({ "Class": "wf-info", "Message": "添加节点：" + option.nodeName });
+        utility.writeLog({ "Class": "wf-info", "Message": "添加节点：" + option.nodeName });
 
 
 
@@ -224,18 +268,18 @@ var flowDesign = {
 };
 
 
-var Utility = {
-    GetQueryString: function (name) {
+var utility = {
+    getQueryString: function (name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
         if (r != null) return unescape(r[2]); return null;
     },
-    WriteLog: function (option) {
+    writeLog: function (option) {
         var date = new Date();
 
         $(".ui-layout-south").prepend("<div class='" + option.Class + "'>" + option.Message + "[" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "]</div>");
     },
-    IsInArray: function (arrs, id) {
+    isInArray: function (arrs, id) {
         for (var i = 0; i < arrs.length; i++) {
             var arr = arrs[i];
             if (arr.Id == id) {
@@ -243,5 +287,50 @@ var Utility = {
             }
         }
         return false;
+    },
+    isExistConnection: function (arrs, sourceId, targetId) {
+        for (var i = 0; i < arrs.length; i++) {
+            var arr = arrs[i];
+            if (arr.Id == id) {
+                return true;
+            }
+        }
+        return false;
+    },
+    isNullOrUndefined: function (obj) {
+        var nullOrUndefined = true;
+        if (obj != null && typeof (obj) != 'undefined') {
+            nullOrUndefined = false;
+        }
+
+        return nullOrUndefined;
+    },
+    getCurrentNode: function (nodeid) {
+        var current_node = {};
+        var nodes = window.Workflow.Nodes;
+        for (var i = 0; i < nodes.length; i++) {
+            var node = nodes[i];
+            if (node.Id == nodeid) {
+                current_node.Node = node;
+                current_node.Index = i;
+                current_node.PreNode = nodes[i - 1];
+                current_node.NextNode = nodes[i + 1];
+                break;
+            }
+        }
+        return current_node;
+    },
+    preCheck: function (selctor) {
+        var approve = true;
+        $(selctor + " [required]").each(function () {
+            if ($(this).val() == "") {
+                approve = false;
+                $(this).focus();
+                utility.writeLog({ "Class": "wf-waring", "Message": "当前字段为必填字段" });
+                return approve;
+            }
+        });
+
+        return approve;
     }
 }
