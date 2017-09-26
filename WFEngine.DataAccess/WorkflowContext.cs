@@ -21,10 +21,5 @@ namespace WFEngine.DataAccess
         public WorkflowContext(DbContextOptions<WorkflowContext> options)
                 : base(options)
         { }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(@"Data Source=PEKWNCOWO03;Initial Catalog=Core_WorkflowDB;Persist Security Info=True;User ID=sa;Password=abcd-1234");
-        //}
     }
 }

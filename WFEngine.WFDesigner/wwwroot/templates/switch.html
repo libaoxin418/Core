@@ -67,6 +67,16 @@
             $("#tab-details-switchButtons").sortable({
                 containment: "parent"
             });
+
+            $("#tab1Save").click(function () {
+                if (!utility.preCheck("#node-tab-normal")) {
+                    return;
+                }
+
+                var nodeid = $("#node-tab-pop").attr("nodeid");
+                var nodeNewName = $("#tab-details-nodeName").val();
+                $("#" + nodeid).find(".node_Name").html(nodeNewName);
+            });
         });
     </script>
 </div>

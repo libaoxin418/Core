@@ -44,10 +44,18 @@
         <div control="CHECKBOX" class="ui-button ui-widget ui-corner-all btn-control">CheckBox</div>
         <div control="BUTTON" class="ui-button ui-widget ui-corner-all btn-control">Button</div>
         <div control="SELECT" class="ui-button ui-widget ui-corner-all btn-control">Select</div>
+        <div control="LIST" class="ui-button ui-widget ui-corner-all btn-control">List</div>
     </div>
 
     <script src="scripts/formdesigner.js"></script>
     <script type="text/javascript">
+        function SetControlAttribute(id) {
+            var iframeWindow = $("iframe")[0].contentWindow;
+            var iframeDocument = iframeWindow.document;
+            var ctrl = $(iframeDocument).find("#" + id);
+        }
+
+
         $(document).ready(function () {
             $('body').layout({ applyDefaultStyles: true });
 
@@ -60,22 +68,27 @@
                 if (el != null && typeof (el) != 'undefined') {
                     var phtml = "<ul>";
 
-                    var ctl = Utility.getControl($(el).attr("control"));
+                    var id = "ctlId" + new Date().getTime();
 
-                    for (var i = 0; i < ctl.Properties.length; i++) {
-                        var p = ctl.Properties[i];
-                        phtml = phtml + "<li>" + p.Name;
+                    var property = $(el).attr("property");
+                    var propertyJSON = JSON.parse(property)
 
-                        phtml = phtml + p.Content;
+                    $(el).attr("id", id);
+                    for (var i = 0; i < propertyJSON.length; i++) {
+                        var p = propertyJSON[i];
+                        phtml = phtml + "<li>" + p.Title;
+
+                
 
                         phtml = phtml + "</li>"
                     }
 
-                    phtml = phtml + "<li><input class='btn btn-default' type='button' click='' value='保存属性'></li>"
+                    phtml = phtml + "<li><input class='btn btn-default' type='button' onclick=\"SetControlAttribute('" + id + "')\" value='保存属性'></li>"
                     phtml += "</ul>"
                     $("#PropertyEditor").html(phtml);
                 }
             })
+
 
             $(".ui-layout-west .btn-control").bind("click", function () {
                 var ctl = $(this).attr("control");

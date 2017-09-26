@@ -8,6 +8,7 @@ namespace WFEngine.DataAccess.Models
 {
     public class Task
     {
+        [Key]
         [MaxLength(50)]
         public string TaskId { get; set; }
 

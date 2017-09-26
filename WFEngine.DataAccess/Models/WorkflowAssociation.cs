@@ -7,6 +7,9 @@ namespace WFEngine.DataAccess.Models
 {
     public class WorkflowAssociation
     {
+        [Key]
+        public string WAId { get; set; }
+
         [MaxLength(50)]
         public string WorkflowId { get; set; }
 

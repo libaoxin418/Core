@@ -91,18 +91,9 @@ var flowDesign = {
             ConnectionOverlays: [
                 ["Arrow", { location: 1 }],
                 ["Label", {
-                    location: 0.1,
+                    location: 0.5,
                     id: "label" + new Date().getTime(),
-                    label: "备注",
-                    cssClass: "labelTheme",
-                    events: {
-                        click: function (parms) {
-                            var lblnote = prompt("请输入内容", "");
-                            if (lblnote != "" && lblnote != null) {
-                                parms.setLabel(lblnote);
-                            }
-                        }
-                    }
+                    cssClass: "labelTheme"
                 }]
             ],
             Anchor: 'Continuous',
@@ -111,7 +102,12 @@ var flowDesign = {
         });
         jsPlumb.setRenderMode(jsPlumb.SVG);
 
-        jsPlumb.bind("dblclick", function (c) {
+        jsPlumb.bind("click", function (parms) {
+            var lblnote = prompt("请输入内容", "");
+            parms.setLabel(lblnote);
+        });
+
+        jsPlumb.bind("contextmenu", function (c) {
             if (confirm("你确定取消连接吗?")) {
                 jsPlumb.detach(c);
                 $("#" + c.sourceId).attr("node_to", "");
@@ -209,7 +205,7 @@ var flowDesign = {
             dropOptions: { hoverClass: "hover", activeClass: "active" },
             anchor: "Continuous",
             maxConnections: -1,
-            endpoint: ["Dot", { radius: 1 }],
+            endpoint: ["Dot", { radius: 0 }],
             paintStyle: { fillStyle: "#ec912a", radius: 1 },
             hoverPaintStyle: this.connectorHoverStyle,
             beforeDrop: function (params) {

@@ -99,7 +99,7 @@
                 start: function (event, ui) {
                     $("#flowdesign_canvas").droppable("enable");
 
-                    $('.ui-draggable-dragging').addClass("wf_node");
+                    $('.ui-draggable-dragging').addClass("wf_node draggable-wf_node");
                     $('.ui-draggable-dragging').html("<span title='点击连线' class='generate_line " + ui.helper.attr("nodeType") + "'></span><span class='node_Name'>" + ui.helper.html() + "</span>")
                 },
                 drag: function (event, ui) {

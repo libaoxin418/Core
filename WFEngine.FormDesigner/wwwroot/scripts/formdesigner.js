@@ -48,49 +48,35 @@ var Utility = {
 var controls = [
     {
         Name: "LABEL",
-        Properties: [
-            { "Name": "Name", "Content": "<input name='Name' type='text' value=''/>" },
-            { "Name": "Title", "Content": "<input name='Title' type='text' value=''/>" }
-        ],
-        Content: "<label by='topspeed' control='LABEL' DBField='' >{Label}</label>",
-        SetValue: function (el, option) {
-            
-        }
-
+        Content: "{[<label by='topspeed' control='LABEL' property='{\"Value\":\"title\",\"DBField\":\"DB.Table.Field\"}' >Label</label>]}"
     },
     {
         Name: "TEXTBOX",
-        Properties: [],
-        Content: "<input by='topspeed' control='TEXTBOX' type='text' DBField=''/>"
+        Content: "<input by='topspeed' control='TEXTBOX' type='text' property='{\"Width\":\"title\",\"Height\":\"title\",\"DBField\":\"DB.Table.Field\"}' />"
     }
     ,
     {
         Name: "TEXTAREA",
-        Properties: [],
         Content: "<textarea by='topspeed' control='TEXTAREA' DBField=''></textarea>"
     }
     ,
     {
         Name: "RADIO",
-        Properties: [],
         Content: "<input by='topspeed' control='RADIO' type='radio' DBField=''/>"
     }
     ,
     {
         Name: "CHECKBOX",
-        Properties: [],
         Content: "<input by='topspeed' control='CHECKBOX' type='checkbox' DBField=''/>"
     }
     ,
     {
         Name: "BUTTON",
-        Properties: [],
         Content: "<input by='topspeed' control='BUTTON' type='button' value='Button'/>"
     }
     ,
     {
         Name: "SELECT",
-        Properties: [],
         Content: "<select  by='topspeed' control='SELECT' DBField=''></select>"
     }
 ];

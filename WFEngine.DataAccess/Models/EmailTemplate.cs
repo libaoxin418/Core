@@ -7,6 +7,7 @@ namespace WFEngine.DataAccess.Models
 {
     public class EmailTemplate
     {
+        [Key]
         [MaxLength(50)]
         public string TmplId { get; set; }
 

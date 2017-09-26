@@ -14,6 +14,11 @@ namespace EnsureDataBaseCreated
         }
         static void Main(string[] args)
         {
+            
+        }
+
+        private static void NewMethod()
+        {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("A", "1");
             dic.Add("B", "2");
@@ -32,12 +37,6 @@ namespace EnsureDataBaseCreated
             {
                 list.Add(m.Groups[1].Value);
             }
-
-
-            //using (var context = new WorkflowContext())
-            //{
-            //    context.Database.EnsureCreated();
-            //}
         }
     }
 }
