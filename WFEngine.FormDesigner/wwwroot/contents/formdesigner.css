@@ -64,3 +64,76 @@
 .ui-layout-east #PropertyEditorTitle {
 height:40px;
 }
+
+/*formdata*/
+#formdesigner-pop {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+#formdesigner-pop-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-color: #000;
+    z-index: 3
+}
+#formdesigner-pop-content {
+    width: 600px;
+    height: 450px;
+    background-color: #fff;
+    z-index: 3;
+    position: absolute;
+    top: 50%;
+    margin-top: -225px;
+    border-radius: 4px;
+    left: 50%;
+    margin-left: -300px;
+}
+
+#formdesigner-pop-content-header {
+    height: 40px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    line-height: 40px;
+    background-color: #438eb9;
+    color: #fff;
+    padding-left: 10px;
+    cursor: move;
+    padding-right: 10px;
+}
+    #formdesigner-pop-content-header img#close-layer-icon {
+        width: 32px;
+        cursor: pointer;
+    }
+
+    #formdesigner-pop-content-header div:first-child {
+        float: left;
+    }
+
+    #formdesigner-pop-content-header div:last-child {
+        float: right;
+    }
+
+#formdesigner-pop-content-tabs {
+    padding: 1px;
+}
+
+.form-group-custom {
+    height: 40px;
+}
+
+.tab-content-container {
+    padding: 10px;
+    height: 280px;
+    overflow-y: auto;
+}
+
+.tab-content-opration {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}

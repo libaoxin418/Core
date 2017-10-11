@@ -103,8 +103,18 @@ var flowDesign = {
         jsPlumb.setRenderMode(jsPlumb.SVG);
 
         jsPlumb.bind("click", function (parms) {
-            var lblnote = prompt("请输入内容", "");
-            parms.setLabel(lblnote);
+            var url = "/templates/prompt/connection-label-prompt.html";
+
+            $.get(url, { "r": Math.random() }, function (result) {
+                $("#wfdesinger-contaner").append(result);
+                $("#close-layer-icon").click(function () {
+                    $("#connection-label-prompt").remove();
+                });
+                $("#connection-label-prompt .wfdesigner-pop-container").draggable({ handle: ".wfdesigner-pop-header" });
+
+                var lblnote = "";
+                parms.setLabel(lblnote);
+            });
         });
 
         jsPlumb.bind("contextmenu", function (c) {
@@ -120,7 +130,7 @@ var flowDesign = {
 
     GetWorkflowDesign: function (workflowId) {
         $.ajax({
-            url: "/api/workflow/wfDesigner/design?wfid=" + workflowId,
+            url: "/api/workflow/designer/design?wfid=" + workflowId,
             type: "Get",
             success: function (result) {
                 //DispWorkflowDesign(result);

@@ -1,16 +1,51 @@
-﻿<div id="dialog" title="表单数据">
-   <ul>
-       <li>
-           数据库连接配置
-       </li>
-       <li>
-           选择数据表
-       </li>
-       <li>
-           创建数据表
-       </li>
-   </ul>
-</div>
-<script type="text/javascript">
+﻿<div id="formdesigner-pop">
+    <div id="formdesigner-pop-layer">
 
-</script>
+    </div>
+    <div id="formdesigner-pop-content">
+        <div id="formdesigner-pop-content-header">
+            <div>表单数据</div>
+            <div><img src="../contents/images/close_layer.png" id="close-layer-icon" /></div>
+        </div>
+        <div id="formdesigner-pop-content-tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#node-tab-normal" role="tab" data-toggle="tab">常规</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="node-tab-normal">
+                    <div class="form-inline tab-content-container">
+                        <div class="form-group form-group-custom">
+                            <label for="tab-details-nodeName" requiredlabel>数据库连接</label>
+                            <select class='tab-details-dbconnection'></select>
+                            <button class='btn btn-default' id='resolveTable'>解析</button>
+                        </div>
+                        <div class="form-group form-group-custom">
+                            <label for="tab-details-nodeName" requiredlabel>数据表集合</label>
+                            <select class='tab-details-tables'></select>
+                            <button class='btn btn-default' id='useTable'>使用</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            //获取所有配置的连接字符串
+            $.ajax({
+                url: "api/form/designer/DBConnections?appid",
+                type: "get",
+                success: function () {
+
+                },
+                error: function () { }
+            });
+
+            //解析字符串获取table
+            $("#resolveTable").click(function () {
+
+
+            });
+        });
+    </script>
+</div>

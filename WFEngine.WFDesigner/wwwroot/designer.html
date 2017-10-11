@@ -34,8 +34,8 @@
     <div class="ui-layout-north">
         <div class="logo-title">工作流设计器</div>
         <div class="opration-button">
-            <input class="btn btn-default" type="button" value="工作流信息">
-            <input class="btn btn-default" type="button" id="ClearDesign" value="清空工作流">
+            <input class="btn btn-default" type="button" id="opration-button-wfinfo" value="工作流信息">
+            <input class="btn btn-default" type="button" id="opration-button-ClearDesign" value="清空工作流">
             <input class="btn btn-default" type="button" value="保存工作流">
         </div>
     </div>
@@ -136,7 +136,7 @@
             });
 
             //清空画布
-            $("#ClearDesign").click(function () {
+            $("#opration-button-ClearDesign").click(function () {
                 if (confirm("确定要清空画布上所有的节点吗？此过程无法还原！")) {
                     flowDesign.Clear();
                     $(".wf_node").each(function () {
@@ -148,6 +148,19 @@
                 }
             });
 
+            $("#opration-button-wfinfo").click(function () {
+                var url = "/templates/wfinfo.html";
+
+                $.get(url, { "r": Math.random() }, function (result) {
+                    $("#wfdesinger-contaner").append(result);
+                    $("#close-layer-icon").click(function () {
+                        $("#wfdesigner-pop-wfinfo").remove();
+                    });
+                    $("#wfdesigner-pop-wfinfo .wfdesigner-pop-container").draggable({ handle: ".wfdesigner-pop-header" });
+
+                    LoadCompleted();
+                });
+            });
         });
     </script>
 </body>

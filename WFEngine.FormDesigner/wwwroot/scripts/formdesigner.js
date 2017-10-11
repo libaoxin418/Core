@@ -2,10 +2,14 @@
 
     $("#btnformData").click(function () {
         var formid = Utility.GetQueryString("formid");
-        $.get("/templates/formdata.html?formid=" + formid, { cache: false }, function (result) {
-            $(".ui-layout-center").append(result);
+        $.get("/templates/formdata.html?formid=" + formid + "&=" + Math.random(), function (result) {
+            $("body").append(result);
 
-            $("#dialog").dialog({ width: 800, height: 400 });
+            $("#close-layer-icon").click(function () {
+                $("#formdesigner-pop").remove();
+            });
+            $("#formdesigner-pop-content").draggable({ handle: "#formdesigner-pop-content-header" });
+
         });
 
     });

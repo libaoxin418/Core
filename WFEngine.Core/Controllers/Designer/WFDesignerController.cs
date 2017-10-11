@@ -14,7 +14,7 @@ using WFEngine.DataAccess;
 
 namespace WFEngine.Core.Controllers.Designer
 {
-    [Route("api/workflow/wfDesigner")]
+    [Route("api/workflow/designer")]
     public class WFDesignerController : Controller
     {
         private readonly WorkflowContext _context;

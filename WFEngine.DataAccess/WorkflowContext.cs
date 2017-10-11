@@ -17,6 +17,7 @@ namespace WFEngine.DataAccess
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
         public DbSet<WorkflowAssociation> WorkflowAssociations { get; set; }
         public DbSet<WorkflowInstance> WorkflowInstances { get; set; }
+        public DbSet<DBConnection> DBConnections { get; set; }
 
         public WorkflowContext(DbContextOptions<WorkflowContext> options)
                 : base(options)
