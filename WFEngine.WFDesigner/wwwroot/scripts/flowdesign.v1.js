@@ -5,7 +5,9 @@
             flowDesign.SetNodeConfig(t);
         },
         "commandDelete": function (t) {
+            jsPlumb.detachAllConnections(t);
             $(t).remove();
+
             var nodes = window.Workflow.Nodes;
             for (var i = 0; i < nodes.length; i++) {
                 var node = nodes[i];
@@ -14,6 +16,7 @@
                     break;
                 }
             }
+
             utility.writeLog({ "Class": "wf-info", "Message": "节点（" + $(t).text() + "）删除成功！" });
         }
     },
@@ -89,12 +92,7 @@ var flowDesign = {
             EndpointStyle: { fillStyle: '#225588' },
             Endpoint: ["Dot", { radius: 1 }],
             ConnectionOverlays: [
-                ["Arrow", { location: 1 }],
-                ["Label", {
-                    location: 0.5,
-                    id: "label" + new Date().getTime(),
-                    cssClass: "labelTheme"
-                }]
+                ["Arrow", { location: 1 }]
             ],
             Anchor: 'Continuous',
             ConnectorZIndex: 5,
@@ -105,24 +103,40 @@ var flowDesign = {
         jsPlumb.bind("click", function (parms) {
             var url = "/templates/prompt/connection-label-prompt.html";
 
-            $.get(url, { "r": Math.random() }, function (result) {
-                $("#wfdesinger-contaner").append(result);
-                $("#close-layer-icon").click(function () {
+            utility.prompt("#connection-label-prompt", url, function () {
+                $("#input-connection-name").val(parms.getLabel());
+
+                $("#input-connection-save").click(function () {
+                    var lblnote = $("#input-connection-name").val();
+                    if (lblnote != "") {
+                        var newlabel = {
+                            location: 0.2,
+                            cssClass: "labelTheme",
+                            label: lblnote
+                        };
+                        parms.setLabel(newlabel);
+                    } else {
+                        parms.getLabelOverlay().cleanup();
+                    }
+
                     $("#connection-label-prompt").remove();
                 });
-                $("#connection-label-prompt .wfdesigner-pop-container").draggable({ handle: ".wfdesigner-pop-header" });
-
-                var lblnote = "";
-                parms.setLabel(lblnote);
             });
         });
 
-        jsPlumb.bind("contextmenu", function (c) {
-            if (confirm("你确定取消连接吗?")) {
-                jsPlumb.detach(c);
-                $("#" + c.sourceId).attr("node_to", "");
-                utility.writeLog({ "Class": "wf-info", "Message": "连接删除成功！" });
+        jsPlumb.bind("contextmenu", function (c, originalEvent) {
+            var parms = {
+                "content": "确定要删除连接吗？", "callback": function () {
+                    jsPlumb.detach(c);
+                    $("#" + c.sourceId).attr("node_to", "");
+                    utility.writeLog({ "Class": "wf-info", "Message": "连接删除成功！" });
+                }
             }
+
+            utility.confirm(parms);
+
+            originalEvent.preventDefault();
+            return false;
         });
 
         utility.writeLog({ "Class": "wf-info", "Message": "工作流设计器初始化成功！" });
@@ -207,11 +221,25 @@ var flowDesign = {
 
         $("#flowdesign_canvas").append(nodeDiv);
 
-        jsPlumb.draggable(jsPlumb.getSelector(".wf_node"));
-        flowDesign.initEndPoints();
+        //当前节点可以拖拽
+        jsPlumb.draggable(nodeDiv);
 
-        //使可以连接线
-        jsPlumb.makeTarget(jsPlumb.getSelector(".wf_node"), {
+        //当前节点可以做为Source,结束节点不能再连接其他节点
+        if (nodeType != "node-end") {
+            jsPlumb.makeSource($(nodeDiv).find(".generate_line"), {
+                parent: nodeDiv,
+                anchor: "Continuous",
+                endpoint: ["Dot", { radius: 1 }],
+                connector: ["Flowchart", { stub: [5, 5] }],
+                connectorStyle: defaults.connectorPaintStyle,
+                hoverPaintStyle: defaults.connectorHoverStyle,
+                dragOptions: {},
+                maxConnections: -1
+            });
+        }
+
+        //使可以连接线，其他节点也可以连接到开始节点
+        jsPlumb.makeTarget(nodeDiv, {
             dropOptions: { hoverClass: "hover", activeClass: "active" },
             anchor: "Continuous",
             maxConnections: -1,
@@ -338,5 +366,33 @@ var utility = {
         });
 
         return approve;
+    },
+    prompt: function (sel, url, callback) {
+        $.get(url, { "r": Math.random() }, function (result) {
+            $("#wfdesinger-contaner").append(result);
+            $("#close-layer-icon").click(function () {
+                $(sel).remove();
+            });
+            $(sel + " .wfdesigner-pop-container").draggable({ handle: ".wfdesigner-pop-header" });
+
+            if (typeof (callback) == "function") {
+                callback();
+            };
+        });
+    },
+    confirm: function (parms) {
+        if (typeof (parms.url) == 'undefined') {
+            parms.url = "/templates/confirm/common-confirm.html";
+        }
+
+        if (typeof (parms.selector) == 'undefined') {
+            parms.selector = "#common-confirm";
+        }
+
+        $.get(parms.url, { "r": Math.random() }, function (result) {
+            $("#wfdesinger-contaner").append(result);
+
+            ConfirmOK(parms);
+        });
     }
 }

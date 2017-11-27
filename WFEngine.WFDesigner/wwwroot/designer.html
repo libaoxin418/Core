@@ -5,6 +5,8 @@
     <title>工作流设计器</title>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
+    <script src="scripts/localization.js"></script>
+
     <script src="libs/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
     <link href="libs/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
     <script src="libs/jquery-ui-1.12.1/jquery-ui.js"></script>
@@ -36,7 +38,7 @@
         <div class="opration-button">
             <input class="btn btn-default" type="button" id="opration-button-wfinfo" value="工作流信息">
             <input class="btn btn-default" type="button" id="opration-button-ClearDesign" value="清空工作流">
-            <input class="btn btn-default" type="button" value="保存工作流">
+            <input class="btn btn-default" type="button" id="opration-button-saveWorkflow" value="保存工作流">
         </div>
     </div>
     <div class="ui-layout-south">
@@ -150,7 +152,6 @@
 
             $("#opration-button-wfinfo").click(function () {
                 var url = "/templates/wfinfo.html";
-
                 $.get(url, { "r": Math.random() }, function (result) {
                     $("#wfdesinger-contaner").append(result);
                     $("#close-layer-icon").click(function () {
@@ -160,6 +161,11 @@
 
                     LoadCompleted();
                 });
+            });
+
+            $("#opration-button-saveWorkflow").click(function () {
+
+
             });
         });
     </script>
